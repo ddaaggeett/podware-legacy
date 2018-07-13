@@ -1,3 +1,4 @@
+const { spawn, exec } = require('child_process')
 const readline = require('readline')
 
 const uiCommands = ['help']

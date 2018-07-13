@@ -7,6 +7,6 @@
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "http://ddaaggeett.xyz",
-  "license": "MIT"
+  "author": "Dave Daggett <http://ddaaggeett.xyz/contact>",
+  "license": "GPL-3.0"
 }
