@@ -1,8 +1,10 @@
 const { spawn, exec } = require('child_process')
+const { runUI } = require('./src/ui')
 
 get_adb_device_list().then(device_list => {
     console.log('adb devices available:\n' + device_list + '\n')
-    startCameras(device_list)
+    runUI()
+    startCameras(device_list) // TODO: prompt by user
     getScreenshot(device_list[0]).then(() => { // TODO: prompt by user
         pullScreenShot(device_list[0])
     })
@@ -10,7 +12,7 @@ get_adb_device_list().then(device_list => {
 
 function getScreenshot(device) {
     return new Promise((resolve,reject) => {
-        exec('adb shell screencap -p /sdcard/screen.png', (err,stdout,stdin) => {
+        exec('adb -s ' + device + ' shell screencap -p /sdcard/' + device + '.png', (err,stdout,stdin) => {
             if(err) process.exit()
             resolve()
         })
@@ -19,7 +21,7 @@ function getScreenshot(device) {
 
 function pullScreenShot(device) {
     return new Promise((resolve,reject) => {
-        exec('adb pull /sdcard/screen.png ./screenshots', (err,stdout,stdin) => {
+        exec('adb -s ' + device + ' pull /sdcard/' + device + '.png ./screenshots', (err,stdout,stdin) => {
             if(err) process.exit()
             resolve()
         })
