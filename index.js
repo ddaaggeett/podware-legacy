@@ -1,6 +1,6 @@
 const { spawn, exec } = require('child_process')
 const { runUI } = require('./src/ui')
-const { getScreenshot } = require('./src/screenshot')
+const { getScreenshot, pullScreenShot } = require('./src/screenshot')
 const { get_adb_device_list } = require('./src/devices')
 const { startCameras } = require('./src/camera')
 

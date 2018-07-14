@@ -1,20 +1,21 @@
 const { spawn, exec } = require('child_process')
 const readline = require('readline')
 
-const uiCommands = ['help']
+const uiCommands = ['help', 'start', 'stop']
 
 const rl = readline.createInterface(process.stdin, process.stdout)
 
 module.exports.runUI = () => {
-    console.log('===========================')
-    rl.question('\nenter podware command (type \'help\' for list of commands)\n\n', (command) => {
-        const cmd = command.toLowerCase().trim()
-        handleCommand(cmd).then(() => {
+    exec('clear', (err,stdout,stdin) => {
+        if(!err) {
+            console.log('===========================')
+            rl.setPrompt('this is podware\n\nenter any listed command (\'help\' to list options)\n')
+            rl.prompt()
             rl.on('line', function(command) {
                 const cmd = command.toLowerCase().trim()
-                handleCommand(cmd).then(() =>console.log('inner complete'))
+                handleCommand(cmd).then(() => console.log('command enter done'))
             })
-        })
+        }
     })
 }
 
@@ -23,6 +24,7 @@ function askHelp() {
     for(var x = 0; x < uiCommands.length; x++) {
         console.log('\t',uiCommands[x])
     }
+    console.log()
 }
 
 function handleCommand(cmd) {
@@ -33,8 +35,6 @@ function handleCommand(cmd) {
                     askHelp()
                     break
                 default:
-                    rl.setPrompt('enter podware command')
-                    rl.prompt()
                     break
             }
         }

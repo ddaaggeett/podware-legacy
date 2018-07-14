@@ -8,7 +8,7 @@ module.exports.getScreenshot = (device) => {
         })
     })
 }
-function pullScreenShot(device) {
+module.exports.pullScreenShot = (device) => {
     return new Promise((resolve,reject) => {
         exec('adb -s ' + device + ' pull /sdcard/' + device + '.png ./screenshots', (err,stdout,stdin) => {
             if(err) process.exit()
