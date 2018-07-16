@@ -1,5 +1,5 @@
-const { getScreenshot, pullScreenShot } = require('./screenshot')
-const { startCameras } = require('./camera')
+const { handleScreenshot } = require('./screenshot')
+const { handleStartCamera, handleStopCamera } = require('./camera')
 const { spawn, exec } = require('child_process')
 const readline = require('readline')
 
@@ -8,22 +8,18 @@ const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot a
 const rl = readline.createInterface(process.stdin, process.stdout)
 
 module.exports.runUI = () => {
-    exec('clear', (err,stdout,stdin) => {
-        if(!err) {
-            console.log('==============================')
-            rl.setPrompt('\tTHIS IS PODWARE\n\nenter command (\'help\' to list options)\n\n')
-            rl.prompt()
-            rl.on('line', function(command) {
-                const cmd = command.toLowerCase().trim()
-                handleCommand(cmd).then(() => console.log('command enter done'))
-            })
-        }
+    console.log('==============================')
+    rl.setPrompt('\tTHIS IS PODWARE\n\nenter command (\'help\' to list options)\n\n')
+    rl.prompt()
+    rl.on('line', function(command) {
+        const cmd = command.toLowerCase().trim()
+        handleCommand(cmd)
     })
 }
 
 function askHelp() {
     console.log('\nAVAILABLE COMMANDS:\n')
-    for(var x = 1; x < uiCommands.length; x++) {
+    for(var x = 0; x < uiCommands.length; x++) {
         console.log('\t',uiCommands[x])
     }
     console.log()
@@ -38,16 +34,21 @@ function handleCommand(cmd) {
             process.exit()
         }
         else if(cmd.includes('start') || cmd.includes('11')) {
-            startCameras(global.device_list)
+            global.device_list.forEach(function(device) {
+                handleStartCamera(device)
+            })
             console.log('\nAND WE\'RE LIVE -->\n') // TODO: announce on promise all cameras are recording
         }
         else if(cmd.includes('stop') || cmd.includes('22')) {
+            global.device_list.forEach(function(device) {
+                handleStopCamera(device)
+            })
             console.log('stopping')
         }
         else if(cmd.includes('snap') || cmd.includes('33')) {
-            console.log('see new screenshots here: ../screenshots/')
-            getScreenshot(global.device_list[0]).then(() => { // TODO: for each device
-                pullScreenShot(global.device_list[0])
+            console.log('\nsee new screenshots here: ../screenshots/')
+            global.device_list.forEach(function(device) {
+                handleScreenshot(device)
             })
         }
         else {
