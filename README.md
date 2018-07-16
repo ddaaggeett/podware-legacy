@@ -5,6 +5,7 @@
 ### developers
 
 1. plug in ADB devices
-2. run `node index.js`
+2. run `npm install`
+3. run `node index.js`
 
 see [wiki](https://github.com/ddaaggeett/podware/wiki) for further documentation

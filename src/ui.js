@@ -1,3 +1,4 @@
+const express = require('express')
 const { handleScreenshot } = require('./screenshot')
 const { handleStartCamera, handleStopCamera } = require('./camera')
 const { spawn, exec } = require('child_process')
@@ -7,9 +8,15 @@ const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot a
 
 const rl = readline.createInterface(process.stdin, process.stdout)
 
+module.exports.browserUI = () => {
+    const app = express()
+    app.get('/', (req, res) => res.send('Hello World!'))
+    app.listen(3000, () => console.log('NOTE: supplementary GUI --> http://localhost:3000\n'))
+}
+
 module.exports.runUI = () => {
-    console.log('==============================')
-    rl.setPrompt('\tTHIS IS PODWARE\n\nenter command (\'help\' to list options)\n\n')
+    console.log('==============================\n\tTHIS IS PODWARE\n==============================')
+    rl.setPrompt('\nenter command (\'help\' to list options)\n\n')
     rl.prompt()
     rl.on('line', function(command) {
         const cmd = command.toLowerCase().trim()
