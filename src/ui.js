@@ -1,15 +1,17 @@
+const { getScreenshot, pullScreenShot } = require('./screenshot')
+const { startCameras } = require('./camera')
 const { spawn, exec } = require('child_process')
 const readline = require('readline')
 
-const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '00\texit']
+const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot all devices)', '00\texit']
 
 const rl = readline.createInterface(process.stdin, process.stdout)
 
 module.exports.runUI = () => {
     exec('clear', (err,stdout,stdin) => {
         if(!err) {
-            console.log('===========================')
-            rl.setPrompt('this is podware\n\nenter any listed command (\'help\' to list options)\n')
+            console.log('==============================')
+            rl.setPrompt('\tTHIS IS PODWARE\n\nenter command (\'help\' to list options)\n\n')
             rl.prompt()
             rl.on('line', function(command) {
                 const cmd = command.toLowerCase().trim()
@@ -36,10 +38,17 @@ function handleCommand(cmd) {
             process.exit()
         }
         else if(cmd.includes('start') || cmd.includes('11')) {
-            console.log('starting')
+            startCameras(global.device_list)
+            console.log('\nAND WE\'RE LIVE -->\n') // TODO: announce on promise all cameras are recording
         }
         else if(cmd.includes('stop') || cmd.includes('22')) {
             console.log('stopping')
+        }
+        else if(cmd.includes('snap') || cmd.includes('33')) {
+            console.log('see new screenshots here: ../screenshots/')
+            getScreenshot(global.device_list[0]).then(() => { // TODO: for each device
+                pullScreenShot(global.device_list[0])
+            })
         }
         else {
             console.log('\nCOMMAND UNAVAILABLE\n')
