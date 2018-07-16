@@ -37,13 +37,11 @@ function handleCommand(cmd) {
             global.device_list.forEach(function(device) {
                 handleStartCamera(device)
             })
-            console.log('\nAND WE\'RE LIVE -->\n') // TODO: announce on promise all cameras are recording
         }
         else if(cmd.includes('stop') || cmd.includes('22')) {
             global.device_list.forEach(function(device) {
                 handleStopCamera(device)
             })
-            console.log('stopping')
         }
         else if(cmd.includes('snap') || cmd.includes('33')) {
             console.log('\nsee new screenshots here: ../screenshots/')
