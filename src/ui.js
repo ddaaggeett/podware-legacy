@@ -8,12 +8,6 @@ const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot a
 
 const rl = readline.createInterface(process.stdin, process.stdout)
 
-export const browserUI = () => {
-    const app = express()
-    app.get('/', (req, res) => res.send('Hello World!'))
-    app.listen(3000, () => console.log('NOTE: supplementary GUI --> http://localhost:3000\n'))
-}
-
 export const runUI = () => {
     console.log('==============================\n\tTHIS IS PODWARE\n==============================')
     rl.setPrompt('\nenter command (\'help\' to list options)\n\n')
