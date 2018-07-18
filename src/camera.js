@@ -1,8 +1,8 @@
-const { spawn, exec } = require('child_process')
+import { spawn, exec } from 'child_process'
 
 var numCamerasRecording = 0
 
-module.exports.handleStartCamera = (device) => {
+export const handleStartCamera = (device) => {
     numCamerasRecording += 1
     openVideoCamera(device) .then(() => {
         toggleRecordVideo(device).then(() => {
@@ -11,7 +11,7 @@ module.exports.handleStartCamera = (device) => {
     })
 }
 
-module.exports.handleStopCamera = (device) => {
+export const handleStopCamera = (device) => {
     numCamerasRecording -= 1
     toggleRecordVideo(device).then(() => {
         console.log('\nALL CAMERAS OFF\n')

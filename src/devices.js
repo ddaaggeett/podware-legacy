@@ -1,6 +1,6 @@
-const { spawn, exec } = require('child_process')
+import { spawn, exec } from 'child_process'
 
-module.exports.get_adb_device_list = () => {
+export const get_adb_device_list = () => {
     return new Promise((resolve, reject) => {
         spawn('adb', ['devices']).stdout.on('data', function(data) {
             var devices = []
