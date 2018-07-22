@@ -1,14 +1,14 @@
 import { spawn, exec } from 'child_process'
 import express from 'express'
-import { handleScreenshot } from './screenshot'
-import { handleStartCamera, handleStopCamera } from './camera'
+import { handleScreenshot } from './visual/screenshot'
+import { handleStartCamera, handleStopCamera } from './visual/camera'
 import readline from 'readline'
 
 const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot all devices)', '00\texit']
 
 const rl = readline.createInterface(process.stdin, process.stdout)
 
-export const runUI = () => {
+export const cli = () => {
     console.log('==============================\n\tTHIS IS PODWARE\n==============================')
     rl.setPrompt('\nenter command (\'help\' to list options)\n\n')
     rl.prompt()
