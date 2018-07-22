@@ -3,6 +3,12 @@ import express from 'express'
 import { handleScreenshot } from './visual/screenshot'
 import { handleStartCamera, handleStopCamera } from './visual/camera'
 import readline from 'readline'
+import { get_adb_device_list } from './devices'
+
+get_adb_device_list().then(device_list => {
+    global.device_list = device_list
+    cli(global.device_list)
+})
 
 const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot all devices)', '00\texit']
 
