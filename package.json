@@ -11,7 +11,9 @@
   "author": "Dave Daggett <http://ddaaggeett.xyz/contact>",
   "license": "GPL-3.0",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
