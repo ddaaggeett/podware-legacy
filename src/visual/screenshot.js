@@ -16,7 +16,7 @@ const getScreenshot = (device) => {
 }
 const pullScreenShot = (device) => {
     return new Promise((resolve,reject) => {
-        exec('adb -s ' + device + ' pull /sdcard/' + device + '.png ./screenshots', (err,stdout,stdin) => {
+        exec('adb -s ' + device + ' pull /sdcard/' + device + '.png ./src/assets/screenshots', (err,stdout,stdin) => {
             if(err) process.exit()
             resolve()
         })

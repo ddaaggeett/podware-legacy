@@ -1,4 +1,4 @@
 node_modules
-screenshots/*
-!screenshots/README.md
+src/assets/*
+!src/assets/README.md
 podware.wiki
