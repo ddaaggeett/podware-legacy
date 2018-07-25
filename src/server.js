@@ -5,7 +5,7 @@ import ReactDOMServer from 'react-dom/server'
 import FrontEnd from './frontend'
 
 const app = express()
-// app.use('/static', express.static(path.join('src')))
+app.use(express.static('static'))
 app.get('*', function (request, response) {
 
     var html = ReactDOMServer.renderToString(

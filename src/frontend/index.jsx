@@ -11,7 +11,15 @@ export default class FrontEnd extends Component {
     }
     render() {
         return (
-            <Monitor devices={this.state.devices} />
+            <html>
+                <head>
+                    <title>podware</title>
+                    <link rel="stylesheet" href="./style.css" />
+                </head>
+                <body>
+                    <Monitor devices={this.state.devices} />
+                </body>
+            </html>
         )
     }
 }

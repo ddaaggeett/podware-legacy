@@ -7,10 +7,9 @@ const Screenshot = (props) => {
     return (
         <div>
             <p>some device: {props.device}</p>
-            <img src={require(deviceImage)} />
         </div>
-
     )
+    // <img src={require(deviceImage)} />
 }
 
 export default class Screenshots extends Component {
