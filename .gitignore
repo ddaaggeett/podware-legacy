@@ -1,4 +1,5 @@
 node_modules
-static/screenshots/*
+static/*
+!static/css/*
 !static/README.md
 podware.wiki

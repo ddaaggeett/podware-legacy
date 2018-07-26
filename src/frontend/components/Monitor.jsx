@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Screenshots from './Screenshots'
+import Screenshots from './Screenshots.jsx'
 
 export default class Monitor extends Component {
     constructor(props) {
