@@ -1,5 +1,5 @@
 node_modules
 static/*
-!static/css/*
+!static/css
 !static/README.md
 podware.wiki
