@@ -2,25 +2,32 @@
   "name": "podware",
   "version": "0.0.1",
   "description": "podcast software",
-  "main": "index.js",
-  "scripts": {
-    "start": "electron-webpack dev",
-    "build": "electron-webpack && electron-builder"
-  },
   "author": "Dave Daggett <http://ddaaggeett.xyz/contact>",
   "license": "GPL-3.0",
-  "dependencies": {
-    "electron": "^2.0.5",
-    "electron-builder": "^20.26.0",
-    "electron-webpack": "^2.1.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "webpack": "^4.16.2",
-    "webpack-dev-server": "^3.1.5"
+  "main": "index.js",
+  "scripts": {
+    "bundle": "webpack --mode development",
+    "serve": "electron -r babel-register .",
+    "start": "npm-run-all --parallel bundle serve"
   },
   "devDependencies": {
-    "babel-core": "^7.0.0-0",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "css-loader": "^1.0.0",
+    "electron": "^2.0.5",
+    "electron-reload": "^1.2.5",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^1.1.11",
+    "npm-run-all": "^4.1.3",
+    "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0"
+  },
+  "dependencies": {
+    "naudiodon": "^0.4.7",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   }
 }

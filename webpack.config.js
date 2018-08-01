@@ -1,33 +1,46 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    entry: './src/frontend/index.js',
+    watch: true,
+    target: 'electron-renderer',
+    entry: './src/renderer.js',
     output: {
-        path: path.join(__dirname, 'static'),
+        path: __dirname + '/build',
+        publicPath: 'build/',
         filename: 'bundle.js'
     },
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                },
+                test: /\.jsx?$/,
+                loader: 'babel-loader'
             },
             {
                 test: /\.css$/,
-                use: [
-                    'style-loader',
-                    'css-loader'
-                ]
+                loader: ExtractTextPlugin.extract({
+                    loader: 'css-loader',
+                    options: {
+                        modules: true
+                    }
+                })
+            },
+            {
+                test: /\.(png|jpg)$/,
+                loader: 'file-loader',
+                query: {
+                    name: '[name].[ext]?[hash]'
+                }
             }
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/frontend/index.html'
+        new ExtractTextPlugin({
+            filename: 'bundle.css',
+            disable: false,
+            allChunks: true
         })
-    ]
+    ],
+    resolve: {
+        extensions: ['.js', '.jsx']
+    }
 }

@@ -1,5 +1,4 @@
 import { spawn, exec } from 'child_process'
-import express from 'express'
 import { handleScreenshot } from './visual/screenshot'
 import { handleStartCamera, handleStopCamera } from './visual/camera'
 import readline from 'readline'

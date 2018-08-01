@@ -1,6 +1,5 @@
 node_modules
-static/*
-!static/css
-!static/README.md
-podware.wiki
-dist
+build
+src/assets/*
+!src/assets/css
+!src/assets/README.md
