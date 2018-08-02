@@ -11,6 +11,7 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow()
     mainWindow.maximize()
     mainWindow.loadURL(`file://${__dirname}/index.html`)
+    mainWindow.webContents.openDevTools()
 })
 
 app.on('window-all-closed', function () {
