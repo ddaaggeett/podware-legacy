@@ -4,10 +4,9 @@ const Screenshot = (props) => {
     return (
         <div>
             <p>some device: {props.device}</p>
-            <img src={require('../assets/screenshots/' + props.device + '.png')} alt='screenshot image' />
+            <img src={require('../assets/screenshots/' + props.device + '.png')} alt={props.device + ' image here'} />
         </div>
     )
-    // <img src={require(deviceImage)} />
 }
 
 export default class Screenshots extends Component {
