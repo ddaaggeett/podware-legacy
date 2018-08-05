@@ -1,12 +1,13 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path')
 
 module.exports = {
     watch: true,
     target: 'electron-renderer',
     entry: './src/renderer.js',
     output: {
-        path: __dirname + '/build',
-        publicPath: 'build/',
+        path: path.join(__dirname, 'build'),
+        publicPath: '/build/',
         filename: 'bundle.js'
     },
     module: {
@@ -24,12 +25,16 @@ module.exports = {
                     }
                 })
             },
-            {
+            { 
                 test: /\.(png|jpg)$/,
-                loader: 'file-loader',
-                query: {
-                    name: '[name].[ext]?[hash]'
-                }
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    }
+                ]
             }
         ]
     },

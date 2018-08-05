@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 
 const Screenshot = (props) => {
-    console.log(props)
-    const deviceImage = "../../assets/screenshots/".concat(props.device, ".png")
-    console.log(deviceImage)
     return (
         <div>
             <p>some device: {props.device}</p>
+            <img src={require('../assets/screenshots/' + props.device + '.png')} alt='screenshot image' />
         </div>
     )
     // <img src={require(deviceImage)} />
