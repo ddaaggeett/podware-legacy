@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import * as styles from '../assets/css/screenshots.css'
 
 const Screenshot = (props) => {
     return (
-        <div>
-            <p>some device: {props.device}</p>
+        <div className={styles.screenshot_object}>
+            <p>ADB device: {props.device}</p>
             <img src={require('../assets/screenshots/' + props.device + '.png')} alt={props.device + ' image here'} />
         </div>
     )
