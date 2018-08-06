@@ -16,10 +16,10 @@ export default class Screenshots extends Component {
 
     }
     render() {
-        // this.props.devices.forEach((device) => {
-            return (
-                <Screenshot device={this.props.devices[0]} />
-            )
-        // })
+        var screenshots = []
+        this.props.devices.forEach((device, index) => {
+            screenshots.push(<Screenshot device={device} key={index} />)
+        })
+        return screenshots
     }
 }
