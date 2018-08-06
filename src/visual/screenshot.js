@@ -24,7 +24,6 @@ const pullScreenShot = (device) => {
 }
 export const getScreenDimensions = (device) => {
     return new Promise((resolve, reject) => {
-        console.log('\ngetting screen dimensions for ' + device + '\n')
         exec('adb -s ' + device + ' shell dumpsys display | grep mDefaultViewport', (err, stdout, stdin) => {
             resolve({
                 width: getImageWidth(stdout),
@@ -48,4 +47,10 @@ function getImageHeight(text) {
         imgHeight = imgHeight.substring(0, cut)
     }
     return imgHeight
+}
+
+export const inputDeviceTap = (device, coords) => {
+    return new Promise ((resolve, reject) => {
+        exec('adb -s ' + device + ' shell input tap ' + coords.x + ' ' + coords.y, (err, stdout, stdin) => resolve())
+    })
 }

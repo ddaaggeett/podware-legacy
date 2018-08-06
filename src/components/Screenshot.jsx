@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getScreenDimensions } from '../visual/screenshot'
+import { getScreenDimensions, inputDeviceTap, handleScreenshot } from '../visual/screenshot'
 import * as styles from '../assets/css/screenshots.css'
 
 export default class Screenshot extends Component {
@@ -13,15 +13,24 @@ export default class Screenshot extends Component {
         })
     }
     imgClickLocation(e, index) {
-        console.log(this.deviceID + ' device\'s dimensions\nw: ' + this.deviceWidth + '\nh: ' + this.deviceHeight)
+        var clickedDeviceImage = document.querySelectorAll('.device_image')[index]
+        var domRect = clickedDeviceImage.getBoundingClientRect()
+        const deviceTapCoords = {
+            x: Math.floor((e.clientX - domRect.x) * this.deviceWidth / domRect.width),
+            y: Math.floor((e.clientY - domRect.y) * this.deviceHeight / domRect.height)
+        }
+        inputDeviceTap(this.deviceID, deviceTapCoords).then(() => {
+            setTimeout(() => { // TODO: do not rely on setTimeout: instead Promise some 'taskComplete' which triggers when adb device is at next screen resting place before taking the screenshot
+                handleScreenshot(this.deviceID)
+            },2000)
+        })
     }
     render() {
         return (
             <div className={styles.screenshot_object}>
                 <p>ADB device: {this.props.device}</p>
-                <img src={require('../assets/screenshots/' + this.props.device + '.png')} alt={this.props.device + ' image here'} onClick={(e) => this.imgClickLocation(e, this.props.index)} />
+                <img className="device_image" src={require('../assets/screenshots/' + this.props.device + '.png')} alt={this.props.device + ' image here'} onClick={(e) => this.imgClickLocation(e, this.props.index)} />
             </div>
         )
     }
 }
-
