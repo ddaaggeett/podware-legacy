@@ -1,0 +1,13 @@
+.camera_controller_button {
+    cursor: default;
+    display: inline-block;
+    margin: 2px;
+    padding-top: 10px;
+    height: 25px;
+    width: 120px;
+    border: 2px solid blue;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 12px;
+    vertical-align: middle;
+}

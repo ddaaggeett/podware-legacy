@@ -54,3 +54,9 @@ export const inputDeviceTap = (device, coords) => {
         exec('adb -s ' + device + ' shell input tap ' + coords.x + ' ' + coords.y, (err, stdout, stdin) => resolve())
     })
 }
+
+export const handleScreenshots = (devices) => {
+    devices.forEach(function(device) {
+        handleScreenshot(device)
+    })
+}

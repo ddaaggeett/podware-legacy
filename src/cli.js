@@ -1,6 +1,6 @@
 import { spawn, exec } from 'child_process'
-import { handleScreenshot } from './visual/screenshot'
-import { handleStartCamera, handleStopCamera } from './visual/camera'
+import { handleScreenshots } from './visual/screenshot'
+import { handleStartCameras, handleStopCameras } from './visual/camera'
 import readline from 'readline'
 import { get_adb_device_list } from './devices'
 
@@ -40,20 +40,13 @@ function handleCommand(cmd) {
             process.exit()
         }
         else if(cmd.includes('start') || cmd.includes('11')) {
-            global.device_list.forEach(function(device) {
-                handleStartCamera(device)
-            })
+            handleStartCameras()
         }
         else if(cmd.includes('stop') || cmd.includes('22')) {
-            global.device_list.forEach(function(device) {
-                handleStopCamera(device)
-            })
+            handleStopCameras()
         }
         else if(cmd.includes('snap') || cmd.includes('33')) {
-            console.log('\nsee new screenshots here: ../screenshots/')
-            global.device_list.forEach(function(device) {
-                handleScreenshot(device)
-            })
+            handleScreenshots()
         }
         else {
             console.log('\nCOMMAND UNAVAILABLE\n')

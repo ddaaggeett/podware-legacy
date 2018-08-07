@@ -32,7 +32,19 @@ function openVideoCamera(device) {
 function toggleRecordVideo(device) {
     return new Promise ((resolve, reject) => {
         spawn('adb',['-s', device, 'shell', 'input', 'keyevent', '66']).stdout.on('close', () => {
-            if(numCamerasRecording == 0 || numCamerasRecording == global.device_list.length) resolve()
+            var deviceList = require('electron').remote.getGlobal('device_list')
+            if(numCamerasRecording == 0 || numCamerasRecording == deviceList.length) resolve()
         })
+    })
+}
+
+export const handleStartCameras = (devices) => {
+    devices.forEach(function(device) {
+        handleStartCamera(device)
+    })
+}
+export const handleStopCameras = (devices) => {
+    devices.forEach(function(device) {
+        handleStopCamera(device)
     })
 }
