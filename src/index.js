@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron'
-import './cli'
+import './adb'
 
 // Let electron reloads by itself when webpack watches changes in ./src/
 require('electron-reload')(__dirname)

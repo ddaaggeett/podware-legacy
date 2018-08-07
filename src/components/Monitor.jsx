@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Screenshots from './Screenshots'
-import { handleStartCameras, handleStopCameras} from '../visual/camera'
-import { handleScreenshots } from '../visual/screenshot'
+import { handleStartCameras, handleStopCameras} from '../adb/camera'
+import { handleScreenshots } from '../adb/screenshot'
 import * as styles from '../assets/css/gui.css'
 
 export default class Monitor extends Component {
