@@ -26,10 +26,18 @@ export default class Screenshot extends Component {
         })
     }
     render() {
+        var screenshotImage = null
+        try {
+            screenshotImage = require('../assets/screenshots/' + this.props.device + '.png')
+        }
+        catch(err){
+            handleScreenshot(this.deviceID)
+        }
+
         return (
             <div className={styles.screenshot_object}>
                 <p>ADB device: {this.props.device}</p>
-                <img className="device_image" src={require('../assets/screenshots/' + this.props.device + '.png')} alt={this.props.device + ' image here'} onClick={(e) => this.imgClickLocation(e, this.props.index)} />
+                <img className="device_image" src={screenshotImage} alt={this.props.device + ' image here'} onClick={(e) => this.imgClickLocation(e, this.props.index)} />
             </div>
         )
     }
