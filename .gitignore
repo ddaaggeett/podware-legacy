@@ -3,3 +3,4 @@ build
 src/assets/*
 !src/assets/css
 !src/assets/README.md
+src/data/podware.json
