@@ -1,4 +1,4 @@
-import { spawn, exec } from 'child_process'
+import { spawn, exec, spawnSync } from 'child_process'
 
 var numCamerasRecording = 0
 
@@ -40,11 +40,35 @@ function toggleRecordVideo(device) {
 
 export const handleStartCameras = (devices) => {
     devices.forEach(function(device) {
-        handleStartCamera(device)
+        getFileList(device).then((data) => {
+            devices[devices.indexOf(device)] = { // TODO: create app data file
+                device: device,
+                filesBefore: data
+            }
+            handleStartCamera(device)
+        })
     })
 }
 export const handleStopCameras = (devices) => {
     devices.forEach(function(device) {
         handleStopCamera(device)
+    })
+}
+
+const getFileList = (device) => {
+    return new Promise((resolve, reject) => {
+        const cmd = spawnSync('adb',['-s',device,'shell','ls','sdcard/DCIM/Camera'])
+        const fileListRaw = cmd.stdout.toString().split('\n')
+        var fileList = []
+        fileListRaw.forEach((item) => {
+            if(item.length !== 0) fileList.push(item)
+        })
+        resolve(fileList)
+    })
+}
+
+const getNewFileName = (listBefore, listAfter) => {
+    listAfter.forEach((item) => {
+        if(!listBefore.contains(item)) return item
     })
 }

@@ -7,7 +7,6 @@ import { get_adb_device_list, closeAllRunningApps } from './devices'
 get_adb_device_list().then((device_list) => {
     device_list.forEach((device) => {
         closeAllRunningApps(device).then(() => {
-            global.device_list = device_list
             cli(device_list)
         })
     })
