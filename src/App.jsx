@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import Monitor from './components/Monitor'
+import { getData } from './data'
 
 export default class App extends Component {
     constructor(props) {
         super(props)
-
-        const remote = require('electron').remote
-
-        this.state = {
-            devices: remote.getGlobal('device_list'),
-        }
-
-        console.log('devices: ',this.state.devices)
+        this.state = {}
+    }
+    componentWillMount() {
+        this.setState({
+            devices: getData().deviceList
+        })
     }
     render() {
         return (

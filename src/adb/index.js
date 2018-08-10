@@ -3,14 +3,14 @@ import { handleScreenshots } from './screenshot'
 import { handleStartCameras, handleStopCameras } from './camera'
 import readline from 'readline'
 import { get_adb_device_list, closeAllRunningApps } from './devices'
+import { setData } from '../data'
 
-get_adb_device_list().then((device_list) => {
-    device_list.forEach((device) => {
-        closeAllRunningApps(device).then(() => {
-            global.device_list = device_list
-            cli(device_list)
-        })
+get_adb_device_list().then((deviceList) => {
+    setData({deviceList}) // TODO: keep previous data - insert only new devices
+    deviceList.forEach((device) => {
+        closeAllRunningApps(device).then(() => console.log('apps closed on ' + device))
     })
+    cli(deviceList)
 })
 
 const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot all devices)', '00\texit']
