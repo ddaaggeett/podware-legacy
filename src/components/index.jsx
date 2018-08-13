@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Monitor from './components/Monitor'
-import { getData } from './data'
+import Monitor from './Monitor'
+import { getData } from '../state'
 
 export default class App extends Component {
     constructor(props) {

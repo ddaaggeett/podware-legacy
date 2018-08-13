@@ -3,7 +3,7 @@ import { handleScreenshots } from './screenshot'
 import { handleStartCameras, handleStopCameras } from './camera'
 import readline from 'readline'
 import { get_adb_device_list, closeAllRunningApps } from './devices'
-import { setData } from '../data'
+import { setData } from '../state'
 
 get_adb_device_list().then((deviceList) => {
     setData({deviceList}) // TODO: keep previous data - insert only new devices

@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron'
-import { initData } from './data'
+import { initData } from './state'
 import './adb'
 
 initData()

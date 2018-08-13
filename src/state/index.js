@@ -3,7 +3,7 @@ import path from 'path'
 
 const fileName = 'podware.json'
 const dataFilePath = path.join(__dirname, fileName)
-const getDataFilePath = 'src/data/' + fileName // TODO: should be same as dataFilePath but doesn't work with getData()
+const getDataFilePath = 'src/state/' + fileName // TODO: should be same as dataFilePath but doesn't work with getData()
 
 export const initData = () => {
     if(!fs.existsSync(dataFilePath)) setData({})
