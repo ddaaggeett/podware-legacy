@@ -2,7 +2,7 @@
   "name": "podware",
   "version": "0.0.1",
   "description": "podcast software",
-  "author": "Dave Daggett <http://ddaaggeett.xyz/contact>",
+  "author": "Dave Daggett <http://ddaaggeett.xyz>",
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
@@ -29,10 +29,10 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
-    "naudiodon": "^0.4.7",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "socket.io": "^2.1.1"
   }
 }

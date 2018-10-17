@@ -4,3 +4,7 @@ export const startCameras = () => ({
 export const stopCameras = () => ({
     type: 'STOP_CAMERAS',
 })
+export const setAudioDevices = (devices) => ({
+    type:'SET_AUDIO_DEVICES',
+    devices,
+})

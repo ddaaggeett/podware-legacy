@@ -15,7 +15,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <Monitor devices={this.state.devices} />
+                <Monitor devices={this.state.devices} {...this.props} />
             </div>
         )
     }
