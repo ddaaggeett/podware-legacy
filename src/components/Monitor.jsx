@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import Screenshots from './Screenshots'
 // import { handleStartCameras, handleStopCameras} from '../adb/camera'
 import { handleScreenshots } from '../adb/screenshot'
-import { listAudioDevices } from '../audio'
+import {
+    listAudioDevices,
+    recordAudioDevice,
+    killAllAudioInput,
+} from '../audio'
 import * as styles from '../assets/css/gui.css'
 
 export default class Monitor extends Component {
@@ -17,10 +21,21 @@ export default class Monitor extends Component {
 
     handleFullRecordStart() {
         console.log('start recording all devices')
+        const timestamp = Date.now()
+        console.log('timestamp')
+        console.log(timestamp)
+        /* audio */
+        this.props.app.audioDevices.forEach(index => {
+            recordAudioDevice(index,timestamp)
+        })
+        /* video */
     }
 
     handleFullRecordStop() {
         console.log('stop recording all devices')
+        /* audio */
+        killAllAudioInput()
+        /* video */
     }
 
     render() {
