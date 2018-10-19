@@ -60,3 +60,9 @@ export const handleScreenshots = (devices) => {
         handleScreenshot(device)
     })
 }
+
+export const adbSnapAndDisplay = () => {
+    exec('cd ~/github/adb-screenshot-pull/ && node . imgs',(err,stdout,stdin) => {
+        if(err)console.log(err)
+    })
+}

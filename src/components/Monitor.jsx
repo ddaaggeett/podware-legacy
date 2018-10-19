@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 import Screenshots from './Screenshots'
 // import { handleStartCameras, handleStopCameras} from '../adb/camera'
-import { handleScreenshots } from '../adb/screenshot'
+import {
+    handleScreenshots,
+    adbSnapAndDisplay,
+} from '../adb/screenshot'
 import {
     listAudioDevices,
     recordAudioDevice,
@@ -45,6 +48,7 @@ export default class Monitor extends Component {
                     <div className={styles.recordingControlButton} onClick={() => this.handleFullRecordStart()}>start</div>
                     <div className={styles.recordingControlButton} onClick={() => this.handleFullRecordStop()}>stop</div>
                     {/*<div className={styles.recordingControlButton} onClick={() => handleScreenshots(this.props.devices)}>screenshots</div>*/}
+                    <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
                 </div>
                 <div className={styles.controllerRow}>
                     <div className={styles.listAudioDevices} onClick={() => listAudioDevices()}>list audio devices</div>
