@@ -11,6 +11,12 @@ import {
     killAllAudioInput,
 } from '../audio'
 import * as styles from '../assets/css/gui.css'
+import {
+    serverIP,
+    socketPort_local,
+} from '../../config'
+import io from 'socket.io-client'
+const socket = io.connect('http://' + serverIP + ':' + socketPort_local)
 
 export default class Monitor extends Component {
     constructor(props) {
@@ -32,6 +38,7 @@ export default class Monitor extends Component {
             recordAudioDevice(index,timestamp)
         })
         /* video */
+        socket.emit('triggerStartVideo')
     }
 
     handleFullRecordStop() {
@@ -39,6 +46,7 @@ export default class Monitor extends Component {
         /* audio */
         killAllAudioInput()
         /* video */
+        socket.emit('triggerStopVideo')
     }
 
     render() {

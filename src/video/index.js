@@ -1,10 +1,28 @@
 import {
     socketPort,
+    socketPort_local,
 } from '../../config'
-var io = require('socket.io').listen(socketPort)
+var io_remote = require('socket.io').listen(socketPort)
+var io_local = require('socket.io').listen(socketPort_local)
 
-io.on('connect', (socket) => {
+var videoStart
+var videoStop
+
+io_remote.on('connect', (socket) => {
     console.log('connected to camera')
-    // socket.emit('startRecording') // TODO: on queue...
-    // socket.emit('stopRecording') // TODO: on queue...
+
+    videoStart = () => {
+        socket.emit('startRecording')
+    }
+
+    videoStop = () => {
+        socket.emit('stopRecording')
+    }
+})
+
+io_local.on('connect', (socket) => {
+    console.log('connected to self')
+
+    socket.on('triggerStartVideo', videoStart)
+    socket.on('triggerStopVideo', videoStop)
 })
