@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron'
 import { initData } from './state'
 import './adb'
+import './video'
 
 initData()
 

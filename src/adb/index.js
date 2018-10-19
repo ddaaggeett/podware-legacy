@@ -8,10 +8,27 @@ import { setData } from '../state'
 get_adb_device_list().then((deviceList) => {
     setData({deviceList}) // TODO: keep previous data - insert only new devices
     deviceList.forEach((device) => {
-        closeAllRunningApps(device).then(() => console.log('apps closed on ' + device))
+        closeAllRunningApps(device)
+        .then(() => {
+            console.log('apps closed on ' + device)
+            startCameraApp(device)
+            .then(() => console.log('podware camera app opened on ' + device))
+        })
     })
     cli(deviceList)
 })
+
+const startCameraApp = (device) => {
+    return new Promise((resolve,reject) => {
+        exec('adb -s ' + device + ' shell am start -n com.podware_camera/com.podware_camera.MainActivity',(err,stdout,stdin) => {
+            if(err) {
+                console.log('ERROR opening app on device ' + device)
+                console.log(err)
+            }
+            resolve()
+        })
+    })
+}
 
 const uiCommands = ['??\thelp', '11\tstart', '22\tstop', '33\tsnap (screenshot all devices)', '00\texit']
 
