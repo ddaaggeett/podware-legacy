@@ -24,11 +24,11 @@ io_camera.on('connect', (socket) => {
     })
 
     videoStart = (timestamp) => {
-        socket.emit('startRecording', timestamp)
+        io_camera.sockets.emit('startRecording', timestamp)
     }
 
     videoStop = () => {
-        socket.emit('stopRecording')
+        io_camera.sockets.emit('stopRecording')
     }
 })
 
