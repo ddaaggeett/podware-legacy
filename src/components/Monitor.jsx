@@ -38,7 +38,7 @@ export default class Monitor extends Component {
             recordAudioDevice(index,timestamp)
         })
         /* video */
-        socket.emit('triggerStartVideo')
+        socket.emit('triggerStartVideo', timestamp)
     }
 
     handleFullRecordStop() {

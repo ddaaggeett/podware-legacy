@@ -3,37 +3,28 @@ import {
     spawn,
 } from 'child_process'
 import {
+    pullVideoFile,
+} from '../adb/devices'
+import {
     recordingsDir,
     socketPort,
     socketPort_local,
 } from '../../config'
-var io_remote = require('socket.io').listen(socketPort)
+var io_camera = require('socket.io').listen(socketPort)
 var io_local = require('socket.io').listen(socketPort_local)
-var fs = require('fs')
-var path = require('path')
 
 var videoStart
 var videoStop
 
-io_remote.on('connect', (socket) => {
+io_camera.on('connect', (socket) => {
     console.log('connected to camera')
 
     socket.on('videoReadyToPull', data => {
-        const device = data.device
-        const pullFilePath = data.pullFilePath
-        const videoFileName = path.basename(pullFilePath)
-        spawn('adb',['-s',device,'pull',pullFilePath,recordingsDir]).stdout.on('data',data => {
-            if(fs.existsSync(recordingsDir + videoFileName)) {
-                console.log('exists -> now deleting from device')
-                exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
-                    if(err) console.log(err)
-                })
-            }
-        })
+        pullVideoFile(data)
     })
 
-    videoStart = () => {
-        socket.emit('startRecording')
+    videoStart = (timestamp) => {
+        socket.emit('startRecording', timestamp)
     }
 
     videoStop = () => {
@@ -44,6 +35,6 @@ io_remote.on('connect', (socket) => {
 io_local.on('connect', (socket) => {
     console.log('connected to self')
 
-    socket.on('triggerStartVideo', videoStart)
+    socket.on('triggerStartVideo', (timestamp) => videoStart(timestamp))
     socket.on('triggerStopVideo', videoStop)
 })

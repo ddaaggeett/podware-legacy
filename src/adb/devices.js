@@ -1,4 +1,12 @@
-import { exec, spawn } from 'child_process'
+import {
+    exec,
+    spawn,
+} from 'child_process'
+import {
+    recordingsDir,
+} from '../../config'
+var fs = require('fs')
+var path = require('path')
 
 export const get_adb_device_list = () => {
     return new Promise((resolve, reject) => {
@@ -29,5 +37,20 @@ export const closeAllRunningApps = (device) => {
                 resolve()
             }
         })
+    })
+}
+
+export const pullVideoFile = (data) => {
+    const device = data.device
+    const pullFilePath = data.pullFilePath
+    const videoFileName = path.basename(pullFilePath)
+    const outFile = recordingsDir + videoFileName
+    spawn('adb',['-s',device,'pull',pullFilePath,outFile]).stdout.on('data',data => {
+        if(fs.existsSync(outFile)) {
+            console.log(videoFileName + ' exists locally -> now deleting from ' + device)
+            exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
+                if(err) console.log(err)
+            })
+        }
     })
 }
