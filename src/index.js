@@ -3,6 +3,7 @@ import {
 } from '../config'
 import { app, BrowserWindow } from 'electron'
 import { initData } from './state'
+import './db'
 import './adb'
 import './video'
 var fs = require('fs')

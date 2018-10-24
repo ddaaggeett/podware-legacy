@@ -1,4 +1,7 @@
 import {
+    io_camera,
+} from '../db'
+import {
     exec,
     spawn,
 } from 'child_process'
@@ -7,10 +10,9 @@ import {
 } from '../adb/devices'
 import {
     recordingsDir,
-    socketPort,
+    socketPort_cameras,
     socketPort_local,
 } from '../../config'
-var io_camera = require('socket.io').listen(socketPort)
 var io_local = require('socket.io').listen(socketPort_local)
 
 var videoStart
@@ -36,5 +38,5 @@ io_local.on('connect', (socket) => {
     console.log('connected to self')
 
     socket.on('triggerStartVideo', (timestamp) => videoStart(timestamp))
-    socket.on('triggerStopVideo', videoStop)
+    socket.on('triggerStopVideo', () => videoStop())
 })

@@ -6,9 +6,10 @@
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
+    "rethinkdb": "rethinkdb",
     "bundle": "webpack --mode development",
     "serve": "electron -r babel-register .",
-    "start": "npm run clean && npm-run-all --parallel bundle serve",
+    "start": "npm run clean && npm-run-all --parallel rethinkdb bundle serve",
     "clean": "rimraf build"
   },
   "devDependencies": {
@@ -33,6 +34,7 @@
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
+    "rethinkdb": "^2.3.3",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1"
   }
