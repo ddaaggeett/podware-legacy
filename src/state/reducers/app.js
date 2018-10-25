@@ -1,10 +1,13 @@
 const initialState = {
     recording: false,
     audioDevices: [0],
+    connectedCameras: [],
 }
 
 const app = (state = initialState, action) => {
     switch(action.type) {
+        case 'UPDATE_APP_STATE':
+            return action.newAppState
         case 'START_CAMERAS':
             return {
                 ...state,

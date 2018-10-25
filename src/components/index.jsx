@@ -12,6 +12,10 @@ export default class App extends Component {
             devices: getData().deviceList
         })
     }
+    componentWillReceiveProps(newProps) {
+        console.log('newProps')
+        console.log(newProps)
+    }
     render() {
         return (
             <div>

@@ -6,8 +6,11 @@ import {
     tables,
 } from '../../config'
 import {
-    deviceChangefeeds,
+    appStateChangefeeds,
 } from './changefeeds'
+import {
+    store,
+} from '../renderer'
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
 export const io_camera = require('socket.io').listen(socketPort_cameras)
@@ -26,24 +29,26 @@ r.connect({
 	io_camera.on('connect', socket => {
 
         socket.on('cameraConnected', function(device) {
-            console.log('\nDUMBO!!\n')
-            const newDevice = {
-                id: device,
+            const currentAppState = store.getState().app
+            const newAppState = {
+                ...currentAppState,
+                connectedCameras: [
+                    ...currentState.connectedCameras,
+                    device
+                ]
             }
-            r.table(tables.devices).update(newDevice).run(connection)
+            r.table(tables.appState).update(newAppState).run(connection)
             .then(data => {
-                console.log(data)
                 if((data.replaced == 0) && (!data.unchanged == 1)) throw device.concat(' device doesn\'t yet exist. inserting instead.')
             })
             .catch(err => {
                 console.log(err)
-                console.log("inserting new device: " + newDevice.id)
-                r.table(tables.devices).insert(newDevice).run(connection)
+                r.table(tables.appState).insert(newAppState).run(connection)
             })
         })
 
         // RethinkDB changefeed
-        r.table(tables.devices).changes({ includeInitial: true, squash: true }).run(connection).then(deviceChangefeeds(socket))
+        r.table(tables.appState).changes({ includeInitial: true, squash: true }).run(connection).then(appStateChangefeeds(socket))
 	})
 })
 .error(function(error) {

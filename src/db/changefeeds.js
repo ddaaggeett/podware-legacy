@@ -1,4 +1,4 @@
-export const deviceChangefeeds = (socket) => {
+export const appStateChangefeeds = (socket) => {
 	return function(rows) {
 		rows.each(function(err, row) {
 			console.log('row')

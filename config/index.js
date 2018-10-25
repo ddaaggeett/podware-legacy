@@ -8,5 +8,6 @@ export const db_host = '127.0.0.1'
 export const db_port = 28015
 export const db_name = 'podware'
 export const tables = {
+    appState: "appState",
     devices: "devices",
 }
