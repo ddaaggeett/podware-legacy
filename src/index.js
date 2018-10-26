@@ -2,13 +2,10 @@ import {
     bundleFile,
 } from '../config'
 import { app, BrowserWindow } from 'electron'
-import { initData } from './state'
 import './db'
 import './adb'
 import './video'
 var fs = require('fs')
-
-initData()
 
 // Let electron reloads by itself when webpack watches changes in ./src/
 require('electron-reload')(__dirname)

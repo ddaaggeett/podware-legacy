@@ -2,7 +2,7 @@
 RethinkDB changefeed changefeedListeners
 handles redux action dispathes
 */
-import * as actionCreators from '../state/actions'
+import * as actionCreators from '../redux/actions'
 import {
     serverIP,
     socketPort_cameras,

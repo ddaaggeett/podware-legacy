@@ -4,5 +4,4 @@ build
 src/assets/*
 !src/assets/css
 !src/assets/README.md
-src/state/podware.json
 recordings
