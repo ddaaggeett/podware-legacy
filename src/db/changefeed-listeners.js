@@ -7,7 +7,7 @@ import {
     serverIP,
     socketPort_cameras,
 } from '../../config'
-import io from 'socket.io-client/dist/socket.io'
+import io from 'socket.io-client'
 const socket = io.connect('http://' + serverIP + ':' + socketPort_cameras)
 
 function dispatchRedux(changefeedType, store, object) {

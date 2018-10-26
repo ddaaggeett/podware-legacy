@@ -10,7 +10,7 @@ import {
 } from './changefeeds'
 import {
     store,
-} from '../renderer'
+} from '../redux'
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
 export const io_camera = require('socket.io').listen(socketPort_cameras)
@@ -33,7 +33,7 @@ r.connect({
             const newAppState = {
                 ...currentAppState,
                 connectedCameras: [
-                    ...currentState.connectedCameras,
+                    ...currentAppState.connectedCameras,
                     device
                 ]
             }

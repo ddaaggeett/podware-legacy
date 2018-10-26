@@ -20,7 +20,7 @@ export const get_adb_device_list = () => {
             if(devices.length !== 0) resolve(devices)
             else {
                 console.error("\nNO ADB DEVICES ATTACHED\n\nPLEASE PLUG IN\n")
-                process.exit()
+                // process.exit() // TODO:
             }
         })
     })
