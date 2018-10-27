@@ -6,6 +6,9 @@ import {
     tables,
 } from '../../config'
 import {
+    io_camera,
+} from '../sockets'
+import {
     appStateChangefeeds,
 } from './changefeeds'
 import {
@@ -13,7 +16,6 @@ import {
 } from '../redux'
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
-export const io_camera = require('socket.io').listen(socketPort_cameras)
 var dbConnx
 
 r.connect({

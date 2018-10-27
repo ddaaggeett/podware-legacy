@@ -13,10 +13,10 @@ import {
 import * as styles from '../assets/css/gui.css'
 import {
     serverIP,
-    socketPort_local,
+    socketPort_react,
 } from '../../config'
 import io from 'socket.io-client'
-const socket = io.connect('http://' + serverIP + ':' + socketPort_local)
+const socket = io.connect('http://' + serverIP + ':' + socketPort_react)
 
 export default class Monitor extends Component {
     constructor(props) {

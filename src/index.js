@@ -2,6 +2,7 @@ import {
     bundleFile,
 } from '../config'
 import { app, BrowserWindow } from 'electron'
+import './sockets'
 import './db'
 import './adb'
 import './video'

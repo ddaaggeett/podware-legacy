@@ -1,6 +1,7 @@
 import {
     io_camera,
-} from '../db'
+    io_react,
+} from '../sockets'
 import {
     exec,
     spawn,
@@ -8,12 +9,6 @@ import {
 import {
     pullVideoFile,
 } from '../adb/devices'
-import {
-    recordingsDir,
-    socketPort_cameras,
-    socketPort_local,
-} from '../../config'
-var io_local = require('socket.io').listen(socketPort_local)
 
 var videoStart
 var videoStop
@@ -34,7 +29,7 @@ io_camera.on('connect', (socket) => {
     }
 })
 
-io_local.on('connect', (socket) => {
+io_react.on('connect', (socket) => {
     console.log('connected to self')
 
     socket.on('triggerStartVideo', (timestamp) => videoStart(timestamp))
