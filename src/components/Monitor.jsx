@@ -21,6 +21,20 @@ const socket = io.connect('http://' + serverIP + ':' + socketPort_react)
 export default class Monitor extends Component {
     constructor(props) {
         super(props)
+
+        socket.on('logCameraConnect', device => {
+            const currentAppState = this.props.app
+            if(!currentAppState.connectedCameras.includes(device)) {
+                const newAppState = {
+                    ...currentAppState,
+                    connectedCameras: [
+                        ...currentAppState.connectedCameras,
+                        device
+                    ]
+                }
+                socket.emit('updateAppState', newAppState)
+            }
+        })
     }
 
     handleSetAudioDevices(text) {

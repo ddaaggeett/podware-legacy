@@ -6,14 +6,11 @@ import {
     tables,
 } from '../../config'
 import {
-    io_camera,
+    io_react,
 } from '../sockets'
 import {
     appStateChangefeeds,
 } from './changefeeds'
-import {
-    store,
-} from '../redux'
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
 var dbConnx
@@ -28,20 +25,14 @@ r.connect({
 
     dbConnx = connection
 
-	io_camera.on('connect', socket => {
+	io_react.on('connect', socket => {
 
-        socket.on('cameraConnected', function(device) {
-            const currentAppState = store.getState().app
-            const newAppState = {
-                ...currentAppState,
-                connectedCameras: [
-                    ...currentAppState.connectedCameras,
-                    device
-                ]
-            }
+        socket.on('updateAppState', function(newAppState) {
             r.table(tables.appState).update(newAppState).run(connection)
             .then(data => {
-                if((data.replaced == 0) && (!data.unchanged == 1)) throw device.concat(' device doesn\'t yet exist. inserting instead.')
+                console.log('update data')
+                console.log(data)
+                if((data.replaced == 0) && (!data.unchanged == 1)) throw 'App State doesn\'t yet exist. inserting instead.'
             })
             .catch(err => {
                 console.log(err)

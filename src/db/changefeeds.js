@@ -1,8 +1,6 @@
 export const appStateChangefeeds = (socket) => {
 	return function(rows) {
 		rows.each(function(err, row) {
-			console.log('row')
-			console.log(row)
 			if (err) {
 				return console.log(err)
 			}
