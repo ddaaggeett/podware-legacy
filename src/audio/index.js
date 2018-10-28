@@ -14,6 +14,16 @@ io_react.on('connect', socket => {
     socket.on('queryAvailableAudioDevices', () => {
         queryAvailableAudioDevices()
     })
+
+    socket.on('triggerStartAudio', data => {
+        const timestamp = data.timestamp
+        const selectedAudioDevices = data.selectedAudioDevices
+        selectedAudioDevices.forEach(index => {
+            recordAudioDevice(index,timestamp)
+        })
+    })
+
+    socket.on('triggerStopAudio', () => killAllAudioInput())
 })
 
 export const recordAudioDevice = (index,timestamp) => {

@@ -5,11 +5,6 @@ import {
     handleScreenshots,
     adbSnapAndDisplay,
 } from '../adb/screenshot'
-// import {
-//     listAudioDevices,
-//     recordAudioDevice,
-//     killAllAudioInput,
-// } from '../audio'
 import * as styles from '../assets/css/gui.css'
 import {
     serverIP,
@@ -47,19 +42,26 @@ export default class Monitor extends Component {
     }
 
     handleSetAudioDevices(text) {
-        const devices = text.split(' ')
-        this.props.setAudioDevices(devices)
+        const currentAppState = this.props.app
+        const devicesStrings = text.split(' ')
+        var devices = []
+        for(var x = 0; x < devicesStrings.length; x++) {
+            const device = parseInt(devicesStrings[x])
+            devices.push(device)
+        }
+        const newAppState = {
+            ...currentAppState,
+            selectedAudioDevices: devices
+        }
+        socket.emit('updateAppState', newAppState)
     }
 
     handleFullRecordStart() {
         console.log('start recording all devices')
         const timestamp = Date.now()
-        console.log('timestamp')
-        console.log(timestamp)
         /* audio */
-        this.props.app.audioDevices.forEach(index => {
-            recordAudioDevice(index,timestamp)
-        })
+        const selectedAudioDevices = this.props.app.selectedAudioDevices
+        socket.emit('triggerStartAudio', {timestamp, selectedAudioDevices})
         /* video */
         socket.emit('triggerStartVideo', timestamp)
     }
@@ -67,7 +69,7 @@ export default class Monitor extends Component {
     handleFullRecordStop() {
         console.log('stop recording all devices')
         /* audio */
-        killAllAudioInput()
+        socket.emit('triggerStopAudio')
         /* video */
         socket.emit('triggerStopVideo')
     }
