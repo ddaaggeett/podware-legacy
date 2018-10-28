@@ -4,21 +4,21 @@ import {
     audioExt,
 } from '../../config'
 import {
-    queryAvailableAudioDevices,
+    queryAvailableMicrophones,
 } from './devices'
 import {
     io_react,
 } from '../sockets'
 
 io_react.on('connect', socket => {
-    socket.on('queryAvailableAudioDevices', () => {
-        queryAvailableAudioDevices()
+    socket.on('queryAvailableMicrophones', () => {
+        queryAvailableMicrophones()
     })
 
     socket.on('triggerStartAudio', data => {
         const timestamp = data.timestamp
-        const selectedAudioDevices = data.selectedAudioDevices
-        selectedAudioDevices.forEach(index => {
+        const selectedMicrophones = data.selectedMicrophones
+        selectedMicrophones.forEach(index => {
             recordAudioDevice(index,timestamp)
         })
     })

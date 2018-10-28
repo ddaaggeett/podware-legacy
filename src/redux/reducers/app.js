@@ -1,6 +1,6 @@
 const initialState = {
     recording: false,
-    selectedAudioDevices: [0],
+    selectedMicrophones: [0],
     connectedCameras: [],
 }
 

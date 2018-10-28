@@ -5,7 +5,7 @@ import {
     io_react,
 } from '../sockets'
 
-export const queryAvailableAudioDevices = () => {
+export const queryAvailableMicrophones = () => {
     exec('ffmpeg -f avfoundation -list_devices true -i ""', (err,stdout,stdin) => {
         if(err) {
             setAvailableAudioDevices(err)
