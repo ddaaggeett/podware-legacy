@@ -5,11 +5,11 @@ import {
     handleScreenshots,
     adbSnapAndDisplay,
 } from '../adb/screenshot'
-import {
-    listAudioDevices,
-    recordAudioDevice,
-    killAllAudioInput,
-} from '../audio'
+// import {
+//     listAudioDevices,
+//     recordAudioDevice,
+//     killAllAudioInput,
+// } from '../audio'
 import * as styles from '../assets/css/gui.css'
 import {
     serverIP,
@@ -34,6 +34,15 @@ export default class Monitor extends Component {
                 }
                 socket.emit('updateAppState', newAppState)
             }
+        })
+
+        socket.on('logAvailableAudioDevices', audioDeviceList => {
+            const currentAppState = this.props.app
+            const newAppState = {
+                ...currentAppState,
+                availableAudioDevices: audioDeviceList
+            }
+            socket.emit('updateAppState', newAppState)
         })
     }
 
@@ -73,9 +82,10 @@ export default class Monitor extends Component {
                     <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
                 </div>
                 <div className={styles.controllerRow}>
-                    <div className={styles.listAudioDevices} onClick={() => listAudioDevices()}>list audio devices</div>
+                    <div className={styles.listAudioDevices} onClick={() => socket.emit('queryAvailableAudioDevices')}>list audio devices</div>
                     <input className={styles.setAudioDevices} placeholder="set microphone indexes to record - eg: 0 1 3 4" onChange={(e) => this.handleSetAudioDevices(e.target.value)} />
                 </div>
+                <div>available audio devices:</div><div>{this.props.app.availableAudioDevices}</div>
                 <div className={styles.controllerRow}>
                     {/*<Screenshots {...this.props} />*/}
                 </div>

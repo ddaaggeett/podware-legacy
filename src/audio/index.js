@@ -3,18 +3,18 @@ import {
     recordingsDir,
     audioExt,
 } from '../../config'
+import {
+    queryAvailableAudioDevices,
+} from './devices'
+import {
+    io_react,
+} from '../sockets'
 
-export const listAudioDevices = () => {
-    exec('ffmpeg -f avfoundation -list_devices true -i ""', (err,stdout,stdin) => {
-        if(err) {
-            console.log('error listing devices:')
-            console.log(err)
-        }
-        else {
-            console.log(stdout)
-        }
+io_react.on('connect', socket => {
+    socket.on('queryAvailableAudioDevices', () => {
+        queryAvailableAudioDevices()
     })
-}
+})
 
 export const recordAudioDevice = (index,timestamp) => {
     const newFile = recordingsDir + timestamp + '_' + index + audioExt
