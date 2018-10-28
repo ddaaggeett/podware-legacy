@@ -8,15 +8,15 @@ import {
 export const queryAvailableMicrophones = () => {
     exec('ffmpeg -f avfoundation -list_devices true -i ""', (err,stdout,stdin) => {
         if(err) {
-            setAvailableAudioDevices(err)
+            setAvailableMicrophones(err)
         }
         else {
-            setAvailableAudioDevices(stdout) // TODO: not yet tested
+            setAvailableMicrophones(stdout) // TODO: not yet tested
         }
     })
 }
 
-export const setAvailableAudioDevices = (textBlob) => {
+export const setAvailableMicrophones = (textBlob) => {
     const lines = textBlob.toString().split('\n')
     var audioDeviceList = []
     for(var x = 0; x < lines.length; x++) {
@@ -31,5 +31,5 @@ export const setAvailableAudioDevices = (textBlob) => {
             }
         }
     }
-    io_react.sockets.emit('logAvailableAudioDevices', audioDeviceList)
+    io_react.sockets.emit('logAvailableMicrophones', audioDeviceList)
 }

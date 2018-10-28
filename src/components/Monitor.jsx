@@ -17,6 +17,17 @@ export default class Monitor extends Component {
     constructor(props) {
         super(props)
 
+        socket.emit('queryUSBDevices')
+
+        socket.on('logADBDevices', adbDevices => {
+            const currentAppState = this.props.app
+            const newAppState = {
+                ...currentAppState,
+                adbDevices
+            }
+            socket.emit('updateAppState', newAppState)
+        })
+
         socket.on('logCameraConnect', device => {
             const currentAppState = this.props.app
             if(!currentAppState.connectedCameras.includes(device)) {
@@ -31,7 +42,7 @@ export default class Monitor extends Component {
             }
         })
 
-        socket.on('logAvailableAudioDevices', audioDeviceList => {
+        socket.on('logAvailableMicrophones', audioDeviceList => {
             const currentAppState = this.props.app
             const newAppState = {
                 ...currentAppState,
