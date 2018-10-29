@@ -46,25 +46,11 @@ export default class Monitor extends Component {
             const currentAppState = this.props.app
             const newAppState = {
                 ...currentAppState,
-                availableAudioDevices: audioDeviceList
+                availableAudioDevices: audioDeviceList,
+                selectedMicrophones: [],
             }
             socket.emit('updateAppState', newAppState)
         })
-    }
-
-    handleSetAudioDevices(text) {
-        const currentAppState = this.props.app
-        const devicesStrings = text.split(' ')
-        var devices = []
-        for(var x = 0; x < devicesStrings.length; x++) {
-            const device = parseInt(devicesStrings[x])
-            devices.push(device)
-        }
-        const newAppState = {
-            ...currentAppState,
-            selectedMicrophones: devices
-        }
-        socket.emit('updateAppState', newAppState)
     }
 
     handleFullRecordStart() {
@@ -93,9 +79,6 @@ export default class Monitor extends Component {
                     <div className={styles.recordingControlButton} onClick={() => this.handleFullRecordStop()}>stop</div>
                     {/*<div className={styles.recordingControlButton} onClick={() => handleScreenshots(this.props.devices)}>screenshots</div>*/}
                     <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
-                </div>
-                <div className={styles.controllerRow}>
-                    <input className={styles.setAudioDevices} placeholder="set microphone indexes to record - eg: 0 1 3 4" onChange={(e) => this.handleSetAudioDevices(e.target.value)} />
                 </div>
                 <Microphones {...this.props} />
                 <div className={styles.controllerRow}>

@@ -6,6 +6,44 @@ import {
 import io from 'socket.io-client'
 const socket = io.connect('http://' + serverIP + ':' + socketPort_react)
 
+class Mic extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    setSelectedMicrophones(index) {
+        var selectedMicrophones = this.props.app.selectedMicrophones
+        const currentAppState = this.props.app
+        var newAppState
+        if(!selectedMicrophones.includes(index)) { // ADD MIC
+            selectedMicrophones.push(index)
+            newAppState = {
+                ...currentAppState,
+                selectedMicrophones
+            }
+        }
+        else { // REMOVE MIC
+            const newSelected = []
+            selectedMicrophones.forEach(mic => {
+                if(mic != index) {
+                    newSelected.push(mic)
+                }
+            })
+            newAppState = {
+                ...currentAppState,
+                selectedMicrophones: newSelected
+            }
+        }
+        socket.emit('updateAppState', newAppState)
+    }
+
+    render() {
+        return (
+            <li onClick={() => this.setSelectedMicrophones(this.props.index)}>{this.props.device}</li>
+        )
+    }
+}
+
 class MicrophoneList extends Component {
 
     constructor(props) {
@@ -19,7 +57,7 @@ class MicrophoneList extends Component {
 
     render() {
         var microphoneList = []
-        this.list.forEach((device, index) => microphoneList.push(<li key={index} index={index}>{device}</li>))
+        this.list.forEach((device, index) => microphoneList.push(<Mic device={device} key={index} index={index} {...this.props} />))
         return (
             <ul>{microphoneList}</ul>
         )
@@ -38,8 +76,8 @@ export default class Microphones extends Component {
     render() {
         return (
             <div>
-                <div>available microphones:</div>
-                <MicrophoneList list={this.props.app.availableAudioDevices} />
+                <div>select your microphones:</div>
+                <MicrophoneList list={this.props.app.availableAudioDevices} {...this.props} />
             </div>
         )
     }
