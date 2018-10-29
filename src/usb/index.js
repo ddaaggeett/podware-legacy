@@ -9,6 +9,17 @@ import {
 } from '../sockets'
 var usb = require('usb')
 
+export const queryUSBDevices = () => {
+    setTimeout(() => {  //  TODO: alternative method. current: able to read adb devices 1 second after usb plug in/out
+        /*adb*/
+        queryADBDevices()
+        /*microphones*/
+        queryAvailableMicrophones()
+    }, 1000)
+}
+
+queryUSBDevices()
+
 usb.on('attach', () => {
     queryUSBDevices()
 })
@@ -21,10 +32,3 @@ io_react.on('connect', socket => {
         queryUSBDevices()
     })
 })
-
-export const queryUSBDevices = () => {
-    /*adb*/
-    queryADBDevices()
-    /*microphones*/
-    queryAvailableMicrophones()
-}

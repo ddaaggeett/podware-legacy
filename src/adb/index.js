@@ -18,10 +18,8 @@ get_adb_device_list()
 })
 
 export const queryADBDevices = () => {
-    setTimeout(() => {  //  TODO: alternative method. current: able to read adb devices 1 second after usb plug in/out
-        get_adb_device_list()
-        .then(deviceList => io_react.sockets.emit('logADBDevices', deviceList))
-    }, 1000)
+    get_adb_device_list()
+    .then(deviceList => io_react.sockets.emit('logADBDevices', deviceList))
 }
 
 const startCameraApp = (device) => {
