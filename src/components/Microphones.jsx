@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import * as styles from '../assets/css/microphones.css'
+import classNames from 'classnames'
 import {
     serverIP,
     socketPort_react,
@@ -38,8 +40,13 @@ class Mic extends Component {
     }
 
     render() {
+        const isSelected = this.props.app.selectedMicrophones.includes(this.props.index)
+        const micStyle = classNames(
+            styles.micItem,
+            isSelected ? styles.micItemSelect : styles.micItemUnSelect
+        )
         return (
-            <li onClick={() => this.setSelectedMicrophones(this.props.index)}>{this.props.device}</li>
+            <li className={micStyle} onClick={() => this.setSelectedMicrophones(this.props.index)}>{this.props.device}</li>
         )
     }
 }
@@ -59,7 +66,7 @@ class MicrophoneList extends Component {
         var microphoneList = []
         this.list.forEach((device, index) => microphoneList.push(<Mic device={device} key={index} index={index} {...this.props} />))
         return (
-            <ul>{microphoneList}</ul>
+            <ul className={styles.micList}>{microphoneList}</ul>
         )
     }
 }
@@ -75,8 +82,8 @@ export default class Microphones extends Component {
 
     render() {
         return (
-            <div>
-                <div>select your microphones:</div>
+            <div className={styles.microphones}>
+                <div className={styles.microphonesTitle}>select your microphones:</div>
                 <MicrophoneList list={this.props.app.availableAudioDevices} {...this.props} />
             </div>
         )

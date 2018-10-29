@@ -1,5 +1,5 @@
 .recordingControlButton {
-    cursor: default;
+    cursor: pointer;
     display: inline-block;
     margin: 2px;
     padding-top: 10px;
@@ -13,25 +13,4 @@
 }
 .controllerRow {
     display: block;
-}
-.listAudioDevices {
-    cursor: default;
-    margin: 2px;
-    padding-top: 10px;
-    height: 25px;
-    width: 180px;
-    border: 2px solid blue;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 12px;
-    vertical-align: middle;
-}
-.setAudioDevices {
-    margin: 2px;
-    padding: 5px;
-    height: 25px;
-    width: 270px;
-    border: 1px solid;
-    font-size: 12px;
-    vertical-align: middle;
 }
