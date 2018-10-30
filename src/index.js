@@ -5,9 +5,6 @@ import { app, BrowserWindow } from 'electron'
 import './usb'
 import './sockets'
 import './db'
-import './adb'
-import './video'
-import './audio'
 var fs = require('fs')
 
 // Let electron reloads by itself when webpack watches changes in ./src/

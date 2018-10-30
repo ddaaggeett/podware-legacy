@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getScreenDimensions, inputDeviceTap, handleScreenshot } from '../adb/screenshot'
+import { getScreenDimensions, inputDeviceTap, handleScreenshot } from '../usb/adb/screenshot'
 import * as styles from '../assets/css/screenshots.css'
 
 export default class Screenshot extends Component {

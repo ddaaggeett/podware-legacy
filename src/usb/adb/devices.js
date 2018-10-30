@@ -4,7 +4,7 @@ import {
 } from 'child_process'
 import {
     recordingsDir,
-} from '../../config'
+} from '../../../config'
 
 export const get_adb_device_list = () => {
     return new Promise((resolve, reject) => {

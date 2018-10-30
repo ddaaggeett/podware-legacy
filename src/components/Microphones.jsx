@@ -84,7 +84,7 @@ export default class Microphones extends Component {
         return (
             <div className={styles.microphones}>
                 <div className={styles.microphonesTitle}>select your microphones:</div>
-                <MicrophoneList list={this.props.app.availableAudioDevices} {...this.props} />
+                <MicrophoneList list={this.props.app.availableMicrophones} {...this.props} />
             </div>
         )
     }

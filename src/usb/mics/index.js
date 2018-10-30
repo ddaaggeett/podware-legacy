@@ -2,32 +2,13 @@ import { spawn, exec, spawnSync } from 'child_process'
 import {
     recordingsDir,
     audioExt,
-} from '../../config'
-import {
-    queryAvailableMicrophones,
-} from './devices'
+} from '../../../config'
 import {
     io_react,
-} from '../sockets'
+} from '../../sockets'
 import {
     readyFileSaveDir,
-} from '../usb'
-
-io_react.on('connect', socket => {
-    socket.on('queryAvailableMicrophones', () => {
-        queryAvailableMicrophones()
-    })
-
-    socket.on('triggerStartAudio', data => {
-        const timestamp = data.timestamp
-        const selectedMicrophones = data.selectedMicrophones
-        selectedMicrophones.forEach(index => {
-            recordAudioDevice(index,timestamp)
-        })
-    })
-
-    socket.on('triggerStopAudio', () => killAllAudioInput())
-})
+} from '..'
 
 export const recordAudioDevice = (index,timestamp) => {
     const audioFileName = timestamp + '_' + index + audioExt

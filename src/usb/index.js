@@ -1,12 +1,10 @@
+import './adb'
 import {
     queryADBDevices,
-} from '../adb'
+} from './adb'
 import {
     queryAvailableMicrophones,
-} from '../audio/devices'
-import {
-    io_react,
-} from '../sockets'
+} from './mics/devices'
 import {
     recordingsDir,
 } from '../../config'
@@ -29,12 +27,6 @@ usb.on('attach', () => {
 })
 usb.on('detach', () => {
     queryUSBDevices()
-})
-
-io_react.on('connect', socket => {
-    socket.on('queryUSBDevices', () => {
-        queryUSBDevices()
-    })
 })
 
 export const readyFileSaveDir = (timestamp) => {

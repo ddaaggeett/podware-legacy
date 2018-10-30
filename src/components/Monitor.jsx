@@ -4,7 +4,7 @@ import Microphones from './Microphones'
 import {
     handleScreenshots,
     adbSnapAndDisplay,
-} from '../adb/screenshot'
+} from '../usb/adb/screenshot'
 import * as styles from '../assets/css/gui.css'
 import {
     serverIP,
@@ -46,7 +46,7 @@ export default class Monitor extends Component {
             const currentAppState = this.props.app
             const newAppState = {
                 ...currentAppState,
-                availableAudioDevices: audioDeviceList,
+                availableMicrophones: audioDeviceList,
                 selectedMicrophones: [],
             }
             socket.emit('updateAppState', newAppState)

@@ -3,7 +3,7 @@ import {
 } from 'child_process'
 import {
     io_react,
-} from '../sockets'
+} from '../../sockets'
 
 export const queryAvailableMicrophones = () => {
     exec('ffmpeg -f avfoundation -list_devices true -i ""', (err,stdout,stdin) => {

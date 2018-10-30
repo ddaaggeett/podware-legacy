@@ -2,10 +2,10 @@ import { spawn, exec } from 'child_process'
 import { get_adb_device_list, closeAllRunningApps } from './devices'
 import {
     io_react,
-} from '../sockets'
+} from '../../sockets'
 import {
     readyFileSaveDir,
-} from '../usb'
+} from '..'
 var r = require('rethinkdb')
 var path = require('path')
 var fs = require('fs')
