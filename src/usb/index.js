@@ -7,7 +7,11 @@ import {
 import {
     io_react,
 } from '../sockets'
+import {
+    recordingsDir,
+} from '../../config'
 var usb = require('usb')
+var fs = require('fs')
 
 export const queryUSBDevices = () => {
     setTimeout(() => {  //  TODO: alternative method. current: able to read adb devices 1 second after usb plug in/out
@@ -32,3 +36,13 @@ io_react.on('connect', socket => {
         queryUSBDevices()
     })
 })
+
+export const readyFileSaveDir = (timestamp) => {
+    return new Promise((resolve,reject) => {
+        const dir = recordingsDir.concat(timestamp,'/')
+        if(!fs.existsSync(dir)) {
+            fs.mkdir(dir, () => resolve(dir))
+        }
+        else resolve(dir)
+    })
+}

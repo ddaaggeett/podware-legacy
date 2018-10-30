@@ -3,7 +3,12 @@ import { get_adb_device_list, closeAllRunningApps } from './devices'
 import {
     io_react,
 } from '../sockets'
+import {
+    readyFileSaveDir,
+} from '../usb'
 var r = require('rethinkdb')
+var path = require('path')
+var fs = require('fs')
 
 get_adb_device_list()
 .then(deviceList => {
@@ -30,6 +35,25 @@ const startCameraApp = (device) => {
                 console.log(err)
             }
             resolve()
+        })
+    })
+}
+
+export const pullVideoFile = (data) => {
+    const device = data.device
+    const pullFilePath = data.pullFilePath
+    const timestamp = data.timestamp
+    const videoFileName = path.basename(pullFilePath)
+    readyFileSaveDir(timestamp)
+    .then(fileSaveDir => {
+        const outFile = fileSaveDir + videoFileName
+        spawn('adb',['-s',device,'pull',pullFilePath,outFile]).stdout.on('data',data => {
+            if(fs.existsSync(outFile)) {
+                console.log(videoFileName + ' exists locally -> now deleting from ' + device)
+                exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
+                    if(err) console.log(err)
+                })
+            }
         })
     })
 }

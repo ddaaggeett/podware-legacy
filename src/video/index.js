@@ -4,7 +4,7 @@ import {
 } from '../sockets'
 import {
     pullVideoFile,
-} from '../adb/devices'
+} from '../adb'
 
 io_camera.on('connect', (socket) => {
     socket.on('cameraConnected', device => io_react.sockets.emit('logCameraConnect', device))
