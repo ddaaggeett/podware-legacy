@@ -8,6 +8,7 @@ from '../db'
 var r = require('rethinkdb')
 
 export class AppState {
+
     constructor(newAppState) {
         this.id = newAppState.id
         this.adbDevices = newAppState.adbDevices
@@ -16,10 +17,10 @@ export class AppState {
         this.connectedCameras = newAppState.connectedCameras
         this.recording = newAppState.recording
 
-        this.updateAppState(newAppState)
+        this.updateDB(newAppState)
     }
 
-    updateAppState(newAppState) {
+    updateDB(newAppState) {
         r.table(tables.appState).update(newAppState).run(dbConnx)
         .then(data => {
             console.log('update data')
@@ -30,10 +31,5 @@ export class AppState {
             console.log(err)
             r.table(tables.appState).insert(newAppState).run(dbConnx)
         })
-    }
-
-    getAppState() {
-        console.log('getAppState()')
-        return this
     }
 }

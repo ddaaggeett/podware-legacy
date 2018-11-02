@@ -12,7 +12,7 @@ import {
     queryAvailableMicrophones,
 } from '../usb/mics/devices'
 import {
-    appState,
+    podware,
 } from '../db'
 import {
     RecordingSession,
@@ -28,13 +28,8 @@ io_camera.on('connect', (socket) => {
 
 io_react.on('connect', (socket) => {
     console.log('connected to self')
-    socket.on('startNewRecordingSession', sessionID => {
-        console.log('new session: '+ sessionID)
-        const recordingSession = new RecordingSession(sessionID)
-        appState.currentRecordingSession = recordingSession
-        appState.updateAppState(appState)
-    })
-    socket.on('stopRecordingSession', () => appState.stopRecordingSession())
+    socket.on('startNewRecordingSession', sessionID => new RecordingSession(sessionID))
+    socket.on('stopRecordingSession', () => podware.currentRecordingSession.stopRecordingSession())
     socket.on('queryUSBDevices', () => queryUSBDevices())
     socket.on('queryAvailableMicrophones', () => queryAvailableMicrophones())
 })

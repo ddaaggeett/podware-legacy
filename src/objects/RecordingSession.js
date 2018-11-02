@@ -1,5 +1,5 @@
 import{
-    appState,
+    podware,
 } from '../db'
 import {
     io_camera,
@@ -12,22 +12,25 @@ import {
 export class RecordingSession {
     constructor(sessionID) {
         this.id = sessionID
-        this.recordAudio(sessionID)
-        this.recordVideo(sessionID)
+        this.recordAudio()
+        this.recordVideo()
+        podware.recording = true
+        podware.currentRecordingSession = this
+        podware.updateDB(podware)
     }
 
-    recordAudio(sessionID) {
-        const selectedMicrophones = appState.selectedMicrophones
-        selectedMicrophones.forEach(index => recordAudioDevice(index, sessionID))
+    recordAudio() {
+        podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id))
     }
 
-    recordVideo(sessionID) {
-        console.log('here @ ' + sessionID)
-        io_camera.sockets.emit('startRecording', sessionID)
+    recordVideo() {
+        io_camera.sockets.emit('startRecording', this.id)
     }
 
     stopRecordingSession() {
         killAllAudioInput()
         io_camera.sockets.emit('stopRecording')
+        podware.recording = false
+        podware.updateDB(podware)
     }
 }
