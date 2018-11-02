@@ -9,5 +9,5 @@ export const db_port = 28015
 export const db_name = 'podware'
 export const tables = {
     appState: "appState",
-    devices: "devices",
+    recordingSessions: "recordingSessions",
 }

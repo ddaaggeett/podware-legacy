@@ -13,7 +13,7 @@ import {
 import io from 'socket.io-client'
 const socket = io.connect('http://' + serverIP + ':' + socketPort_react)
 
-export default class Monitor extends Component {
+export default class RecordingControl extends Component {
     constructor(props) {
         super(props)
 
@@ -55,20 +55,12 @@ export default class Monitor extends Component {
 
     handleFullRecordStart() {
         console.log('start recording all devices')
-        const timestamp = Date.now()
-        /* audio */
-        const selectedMicrophones = this.props.app.selectedMicrophones
-        socket.emit('triggerStartAudio', {timestamp, selectedMicrophones})
-        /* video */
-        socket.emit('triggerStartVideo', timestamp)
+        socket.emit('startNewRecordingSession', Date.now())
     }
 
     handleFullRecordStop() {
         console.log('stop recording all devices')
-        /* audio */
-        socket.emit('triggerStopAudio')
-        /* video */
-        socket.emit('triggerStopVideo')
+        socket.emit('stopRecordingSession')
     }
 
     render() {

@@ -6,6 +6,9 @@ import {
     tables,
 } from '../../config'
 import {
+    AppState,
+} from '../objects'
+import {
     io_react,
 } from '../sockets'
 import {
@@ -14,6 +17,7 @@ import {
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
 var dbConnx
+var appState
 
 r.connect({
     host: db_host,
@@ -27,17 +31,8 @@ r.connect({
 
 	io_react.on('connect', socket => {
 
-        socket.on('updateAppState', function(newAppState) {
-            r.table(tables.appState).update(newAppState).run(connection)
-            .then(data => {
-                console.log('update data')
-                console.log(data)
-                if((data.replaced == 0) && (!data.unchanged == 1)) throw 'App State doesn\'t yet exist. inserting instead.'
-            })
-            .catch(err => {
-                console.log(err)
-                r.table(tables.appState).insert(newAppState).run(connection)
-            })
+        socket.on('updateAppState', newAppState => {
+            appState = new AppState(newAppState)
         })
 
         // RethinkDB changefeed
@@ -50,4 +45,5 @@ r.connect({
 
 export {
     dbConnx,
+    appState,
 }

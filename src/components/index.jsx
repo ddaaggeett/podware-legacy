@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Monitor from './Monitor'
+import RecordingControl from './RecordingControl'
 
 export default class App extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                <Monitor {...this.props} />
+                <RecordingControl {...this.props} />
             </div>
         )
     }
