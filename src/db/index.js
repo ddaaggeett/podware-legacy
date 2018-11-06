@@ -17,7 +17,6 @@ import {
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
 var dbConnx
-var podware
 
 r.connect({
     host: db_host,
@@ -32,7 +31,7 @@ r.connect({
 	io_react.on('connect', socket => {
 
         socket.on('updateAppState', newAppState => {
-            podware = new AppState(newAppState)
+            global.podware = new AppState(newAppState)
         })
 
         // RethinkDB changefeed
@@ -45,5 +44,4 @@ r.connect({
 
 export {
     dbConnx,
-    podware,
 }

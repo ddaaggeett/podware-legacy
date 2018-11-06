@@ -1,6 +1,3 @@
-import{
-    podware,
-} from '../db'
 import {
     io_camera,
 } from '../sockets'
@@ -14,13 +11,13 @@ export class RecordingSession {
         this.id = sessionID
         this.recordAudio()
         this.recordVideo()
-        podware.recording = true
-        podware.currentRecordingSession = this
-        podware.updateDB(podware)
+        global.podware.recording = true
+        global.podware.currentRecordingSession = this
+        global.podware.updateDB(global.podware)
     }
 
     recordAudio() {
-        podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id))
+        global.podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id))
     }
 
     recordVideo() {
@@ -30,7 +27,7 @@ export class RecordingSession {
     stopRecordingSession() {
         killAllAudioInput()
         io_camera.sockets.emit('stopRecording')
-        podware.recording = false
-        podware.updateDB(podware)
+        global.podware.recording = false
+        global.podware.updateDB(global.podware)
     }
 }

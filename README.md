@@ -8,7 +8,7 @@ this software package is used directly with its [camera module](https://github.c
 
 plug in ADB devices
 
-    run npm i
-    run npm start
+    npm i
+    npm start
 
 see [wiki](https://github.com/ddaaggeett/podware/wiki) for further documentation
