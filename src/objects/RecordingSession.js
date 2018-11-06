@@ -4,7 +4,7 @@ import {
 import {
     recordAudioDevice,
     killAllAudioInput,
-} from '../usb/mics'
+} from '../devices/mics'
 
 export class RecordingSession {
     constructor(sessionID) {

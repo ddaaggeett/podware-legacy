@@ -5,28 +5,28 @@ import {
 import {
     queryAvailableMicrophones,
 } from './mics/devices'
+import { queryCameras, } from './cameras'
 import {
     recordingsDir,
 } from '../../config'
 var usb = require('usb')
 var fs = require('fs')
 
-export const queryUSBDevices = () => {
+export const queryAllDevices = () => {
     setTimeout(() => {  //  TODO: alternative method. current: able to read adb devices 1 second after usb plug in/out
-        /*adb*/
         queryADBDevices()
-        /*microphones*/
         queryAvailableMicrophones()
+        queryCameras()
     }, 1000)
 }
 
-queryUSBDevices()
+queryAllDevices()
 
 usb.on('attach', () => {
-    queryUSBDevices()
+    queryAllDevices()
 })
 usb.on('detach', () => {
-    queryUSBDevices()
+    queryAllDevices()
 })
 
 export const readyFileSaveDir = (timestamp) => {

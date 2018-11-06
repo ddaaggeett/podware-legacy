@@ -4,13 +4,13 @@ import {
 } from '../../config'
 import {
     pullVideoFile,
-} from '../usb/adb'
+} from '../devices/adb'
 import {
-    queryUSBDevices,
-} from '../usb'
+    queryAllDevices,
+} from '../devices'
 import {
     queryAvailableMicrophones,
-} from '../usb/mics/devices'
+} from '../devices/mics/devices'
 import {
     RecordingSession,
 } from '../objects'
@@ -27,6 +27,6 @@ io_react.on('connect', (socket) => {
     console.log('connected to self')
     socket.on('startNewRecordingSession', sessionID => new RecordingSession(sessionID))
     socket.on('stopRecordingSession', () => global.podware.currentRecordingSession.stopRecordingSession())
-    socket.on('queryUSBDevices', () => queryUSBDevices())
+    socket.on('queryAllDevices', () => queryAllDevices())
     socket.on('queryAvailableMicrophones', () => queryAvailableMicrophones())
 })

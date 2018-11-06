@@ -2,7 +2,7 @@ import {
     bundleFile,
 } from '../config'
 import { app, BrowserWindow } from 'electron'
-import './usb'
+import './devices'
 import './sockets'
 import './db'
 var fs = require('fs')

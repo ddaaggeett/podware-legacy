@@ -4,7 +4,7 @@ import Microphones from './Microphones'
 import {
     handleScreenshots,
     adbSnapAndDisplay,
-} from '../usb/adb/screenshot'
+} from '../devices/adb/screenshot'
 import * as styles from '../assets/css/gui.css'
 import {
     serverIP,
@@ -17,7 +17,7 @@ export default class RecordingControl extends Component {
     constructor(props) {
         super(props)
 
-        socket.emit('queryUSBDevices')
+        socket.emit('queryAllDevices')
 
         socket.on('logADBDevices', adbDevices => {
             const currentAppState = this.props.app
