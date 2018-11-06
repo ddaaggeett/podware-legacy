@@ -48,12 +48,14 @@ export const pullVideoFile = (data) => {
     .then(fileSaveDir => {
         const outFile = fileSaveDir + videoFileName
         spawn('adb',['-s',device,'pull',pullFilePath,outFile]).stdout.on('data',data => {
+            /*
             if(fs.existsSync(outFile)) {
                 console.log(videoFileName + ' exists locally -> now deleting from ' + device)
                 exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
                     if(err) console.log(err)
                 })
             }
+            */
         })
     })
 }
