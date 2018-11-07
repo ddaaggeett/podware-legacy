@@ -28,20 +28,6 @@ export default class RecordingControl extends Component {
             socket.emit('updateAppState', newAppState)
         })
 
-        socket.on('logCameraConnect', device => {
-            const currentAppState = this.props.app
-            if(!currentAppState.connectedCameras.includes(device)) {
-                const newAppState = {
-                    ...currentAppState,
-                    connectedCameras: [
-                        ...currentAppState.connectedCameras,
-                        device
-                    ]
-                }
-                socket.emit('updateAppState', newAppState)
-            }
-        })
-
         socket.on('logAvailableMicrophones', audioDeviceList => {
             const currentAppState = this.props.app
             const newAppState = {

@@ -9,6 +9,9 @@ import {
     queryAllDevices,
 } from '../devices'
 import {
+    Camera,
+} from '../devices/cameras'
+import {
     queryAvailableMicrophones,
 } from '../devices/mics/devices'
 import {
@@ -19,7 +22,7 @@ export const io_camera = require('socket.io').listen(socketPort_cameras)
 export const io_react = require('socket.io').listen(socketPort_react)
 
 io_camera.on('connect', (socket) => {
-    socket.on('cameraConnected', device => io_react.sockets.emit('logCameraConnect', device))
+    socket.on('cameraConnected', device => new Camera(device))
     socket.on('videoReadyToPull', data => pullVideoFile(data))
 })
 
