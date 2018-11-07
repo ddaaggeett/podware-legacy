@@ -5,19 +5,28 @@ import {
     recordAudioDevice,
     killAllAudioInput,
 } from '../devices/mics'
+import {
+    recordingsDir,
+} from '../../config'
+var fs = require('fs')
 
 export class RecordingSession {
     constructor(sessionID) {
+        console.log('recording session init')
         this.id = sessionID
-        this.recordAudio()
-        this.recordVideo()
+        this.readyMediaFileDir().then(dir => {
+            this.mediaDir = dir
+            this.recordAudio(dir)
+            this.recordVideo()
+            global.podware.updateDB(global.podware)
+        })
         global.podware.recording = true
         global.podware.currentRecordingSession = this
         global.podware.updateDB(global.podware)
     }
 
-    recordAudio() {
-        global.podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id))
+    recordAudio(toDir) {
+        global.podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id, toDir))
     }
 
     recordVideo() {
@@ -29,5 +38,15 @@ export class RecordingSession {
         io_camera.sockets.emit('stopRecording')
         global.podware.recording = false
         global.podware.updateDB(global.podware)
+    }
+
+    readyMediaFileDir() {
+        return new Promise((resolve,reject) => {
+            const dir = recordingsDir.concat(this.id,'/')
+            if(!fs.existsSync(dir)) {
+                fs.mkdir(dir, () => resolve(dir))
+            }
+            else resolve(dir)
+        })
     }
 }

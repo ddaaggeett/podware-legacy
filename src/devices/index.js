@@ -6,9 +6,6 @@ import {
     queryAvailableMicrophones,
 } from './mics/devices'
 import { queryCameras, } from './cameras'
-import {
-    recordingsDir,
-} from '../../config'
 var usb = require('usb')
 var fs = require('fs')
 
@@ -28,13 +25,3 @@ usb.on('attach', () => {
 usb.on('detach', () => {
     queryAllDevices()
 })
-
-export const readyFileSaveDir = (timestamp) => {
-    return new Promise((resolve,reject) => {
-        const dir = recordingsDir.concat(timestamp,'/')
-        if(!fs.existsSync(dir)) {
-            fs.mkdir(dir, () => resolve(dir))
-        }
-        else resolve(dir)
-    })
-}

@@ -43,10 +43,10 @@ export const pullVideoFile = (data) => {
     const device = data.device
     const pullFilePath = data.pullFilePath
     const timestamp = data.timestamp
+    const endTime = data.endTime
     const videoFileName = path.basename(pullFilePath)
-    readyFileSaveDir(timestamp)
-    .then(fileSaveDir => {
-        const outFile = fileSaveDir + videoFileName
+    const mediaDir = global.podware.currentRecordingSession.mediaDir
+    const outFile = mediaDir + videoFileName
         spawn('adb',['-s',device,'pull',pullFilePath,outFile]).stdout.on('data',data => {
             /*
             if(fs.existsSync(outFile)) {
@@ -56,6 +56,5 @@ export const pullVideoFile = (data) => {
                 })
             }
             */
-        })
     })
 }

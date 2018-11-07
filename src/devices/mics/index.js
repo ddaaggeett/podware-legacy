@@ -10,11 +10,9 @@ import {
     readyFileSaveDir,
 } from '..'
 
-export const recordAudioDevice = (index,timestamp) => {
+export const recordAudioDevice = (index,timestamp, toDir) => {
     const audioFileName = timestamp + '_' + index + audioExt
-    readyFileSaveDir(timestamp)
-    .then(fileSaveDir => {
-        const newFile = fileSaveDir + audioFileName
+    const newFile = toDir + audioFileName
         exec('ffmpeg -f avfoundation -i ":' + index + '" ' + newFile, {
             maxBuffer: 10000000, // 10mB should work? default is 200kB
         }, (err, stdout, stdin) => {
@@ -24,7 +22,6 @@ export const recordAudioDevice = (index,timestamp) => {
             }
         })
         console.log('recording device ' + index)
-    })
 }
 
 export const killAllAudioInput = () => {
