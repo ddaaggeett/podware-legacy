@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Screenshots from './Screenshots'
 import Microphones from './Microphones'
+import classNames from 'classnames'
 import {
     handleScreenshots,
     adbSnapAndDisplay,
@@ -52,8 +53,11 @@ export default class RecordingControl extends Component {
         return (
             <div>
                 <div className={styles.controllerRow}>
-                    <div className={styles.recordingControlButton} onClick={() => this.handleFullRecordStart()}>start</div>
-                    <div className={styles.recordingControlButton} onClick={() => this.handleFullRecordStop()}>stop</div>
+                    {
+                        this.props.app.recording ?
+                        <div className={classNames(styles.recordingControlButton,styles.stopButton)} onClick={() => this.handleFullRecordStop()}>stop</div> :
+                        <div className={classNames(styles.recordingControlButton,styles.startButton)} onClick={() => this.handleFullRecordStart()}>start</div>
+                    }
                     {/*<div className={styles.recordingControlButton} onClick={() => handleScreenshots(this.props.devices)}>screenshots</div>*/}
                     <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
                 </div>

@@ -11,6 +11,12 @@
     font-size: 12px;
     vertical-align: middle;
 }
+.startButton {
+    background-color: #0f0;
+}
+.stopButton {
+    background-color: #f00;
+}
 .controllerRow {
     display: block;
 }
