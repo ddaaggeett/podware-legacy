@@ -33,7 +33,7 @@ export default class RecordingControl extends Component {
             const currentAppState = this.props.app
             const newAppState = {
                 ...currentAppState,
-                availableMicrophones: audioDeviceList,
+                mics: audioDeviceList,
             }
             socket.emit('updateAppState', newAppState)
         })

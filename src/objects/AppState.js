@@ -12,9 +12,9 @@ export class AppState {
     constructor(newAppState) {
         this.id = newAppState.id
         this.adbDevices = newAppState.adbDevices
-        this.availableMicrophones = newAppState.availableMicrophones
+        this.mics = newAppState.mics
         this.selectedMicrophones = newAppState.selectedMicrophones
-        this.connectedCameras = newAppState.connectedCameras
+        this.cameras = newAppState.cameras
         this.recording = newAppState.recording
 
         this.updateDB(newAppState)

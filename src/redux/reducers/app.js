@@ -1,7 +1,7 @@
 const initialState = {
     recording: false,
     selectedMicrophones: [],
-    connectedCameras: [],
+    cameras: [],
 }
 
 const app = (state = initialState, action) => {

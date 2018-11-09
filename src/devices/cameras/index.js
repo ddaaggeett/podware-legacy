@@ -9,7 +9,7 @@ export class Camera {
     }
 
     connect() {
-        const cameras = global.podware.connectedCameras
+        const cameras = global.podware.cameras
         var exists = false
         for(var x = 0; x < cameras.length; x++) {
             if(cameras[x].id == this.id) {
@@ -18,8 +18,8 @@ export class Camera {
             }
         }
         if(!exists) {
-            global.podware.connectedCameras = [
-                ...global.podware.connectedCameras,
+            global.podware.cameras = [
+                ...global.podware.cameras,
                 this
             ]
             global.podware.updateDB(global.podware)
