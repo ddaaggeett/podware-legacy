@@ -25,3 +25,6 @@ usb.on('attach', () => {
 usb.on('detach', () => {
     queryAllDevices()
 })
+
+export { Mic } from './mics'
+export { Camera } from './cameras'

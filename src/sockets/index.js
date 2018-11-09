@@ -10,7 +10,7 @@ import {
 } from '../devices'
 import {
     Camera,
-} from '../devices/cameras'
+} from '../devices'
 import {
     queryAvailableMicrophones,
 } from '../devices/mics/devices'

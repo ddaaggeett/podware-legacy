@@ -11,6 +11,13 @@ import {
 } from '..'
 import { AudioTrack } from '../../objects'
 
+export class Mic {
+    constructor(id) {
+        this.id = id
+        this.selected = false
+    }
+}
+
 export const recordAudioDevice = (index,timestamp, toDir) => {
     const audioFileName = timestamp + '_' + index + audioExt
     const newFile = toDir + audioFileName
