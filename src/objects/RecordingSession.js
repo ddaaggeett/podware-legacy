@@ -14,6 +14,8 @@ export class RecordingSession {
     constructor(sessionID) {
         console.log('recording session init')
         this.id = sessionID
+        this.audioTracks = []
+        this.videoTracks = []
         this.readyMediaFileDir().then(dir => {
             this.mediaDir = dir
             this.recordAudio(dir)
