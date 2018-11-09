@@ -17,11 +17,10 @@ export const recordAudioDevice = (index,timestamp, toDir) => {
         exec('ffmpeg -f avfoundation -i ":' + index + '" ' + newFile, {
             maxBuffer: 10000000, // 10mB should work? default is 200kB
         }, (err, stdout, stdin) => {
+            const endTime = Date.now()
             if(err) { // thrown on killAllAudioInput()
                 console.log('error recording audio ' + index)
-                console.log(err)
-
-                new AudioTrack(newFile)
+                new AudioTrack(newFile,endTime)
             }
         })
         console.log('recording device ' + index)

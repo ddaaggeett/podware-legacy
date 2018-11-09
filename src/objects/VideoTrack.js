@@ -1,22 +1,22 @@
 import { exec } from 'child_process'
 
-export class AudioTrack {
+export class VideoTrack {
+
     constructor(file,endTime) {
         this.file = file
         this.endTime = endTime
-        this.getAudioTrackData()
-        .then(data => {
-            this.duration = data.duration
-            this.startOffset = data.startOffset
+        this.getVideoTrackData()
+        .then(duration => {
+            this.duration = duration
             this.startTime = this.endTime - (this.duration * 1000)
-            const audioTracks = global.podware.currentRecordingSession.audioTracks
-            audioTracks.push(this)
-            global.podware.currentRecordingSession.audioTracks = audioTracks
+            const videoTracks = global.podware.currentRecordingSession.videoTracks
+            videoTracks.push(this)
+            global.podware.currentRecordingSession.videoTracks = videoTracks
             global.podware.updateDB(global.podware)
         })
     }
 
-    getAudioTrackData() {
+    getVideoTrackData() {
         return new Promise((resolve,reject) => {
             exec('ffprobe -v quiet -print_format json -show_format ' + this.file, (err,stdout,stdin) => {
                 if(err) {
@@ -25,10 +25,10 @@ export class AudioTrack {
                 }
                 else {
                     const duration = JSON.parse(stdout).format.duration
-                    const startOffset = JSON.parse(stdout).format.start_time
-                    resolve({duration,startOffset})
+                    resolve(duration)
                 }
             })
         })
     }
+
 }

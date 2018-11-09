@@ -6,6 +6,7 @@ import {
 import {
     readyFileSaveDir,
 } from '..'
+import { VideoTrack } from '../../objects'
 var r = require('rethinkdb')
 var path = require('path')
 var fs = require('fs')
@@ -52,6 +53,7 @@ export const pullVideoFile = (data) => {
         var flag = true
         while(flag) {
             if(fs.existsSync(outFile) && fs.statSync(outFile).size == remoteFileSize) {
+                new VideoTrack(outFile,endTime)
                 console.log(videoFileName + ' exists locally -> now deleting from ' + device)
                 exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
                     if(err) console.log(err)
