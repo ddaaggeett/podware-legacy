@@ -14,6 +14,7 @@ import {
 import {
     queryAvailableMicrophones,
 } from '../devices/mics/devices'
+import { toggleCameraRecording } from '../devices/cameras'
 import {
     RecordingSession,
 } from '../objects'
@@ -24,6 +25,7 @@ export const io_react = require('socket.io').listen(socketPort_react)
 io_camera.on('connect', (socket) => {
     socket.on('cameraConnected', device => new Camera(device))
     socket.on('videoReadyToPull', data => pullVideoFile(data))
+    socket.on('toggleCameraRecording', data => toggleCameraRecording(data))
 })
 
 io_react.on('connect', (socket) => {

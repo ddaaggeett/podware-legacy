@@ -30,3 +30,11 @@ export class Camera {
 export const queryCameras = () => {
     io_camera.sockets.emit('queryCamera')
 }
+
+export const toggleCameraRecording = (device) => {
+    const cameras = global.podware.cameras
+    const cameraIndex = cameras.findIndex(x => x.id == device)
+    const currentStatus = cameras[cameraIndex].recording
+    global.podware.cameras[cameraIndex].recording = !currentStatus
+    global.podware.updateDB(global.podware)
+}
