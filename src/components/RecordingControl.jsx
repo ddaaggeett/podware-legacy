@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Screenshots from './Screenshots'
 import Microphones from './Microphones'
+import Cameras from './Cameras'
 import classNames from 'classnames'
 import {
     handleScreenshots,
@@ -62,6 +63,7 @@ export default class RecordingControl extends Component {
                     <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
                 </div>
                 <Microphones {...this.props} />
+                <Cameras {...this.props} />
                 <div className={styles.controllerRow}>
                     {/*<Screenshots {...this.props} />*/}
                 </div>
