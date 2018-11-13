@@ -1,11 +1,31 @@
+import { exec } from 'child_process'
 import { io_camera } from '../../sockets'
 import { VideoClip } from '../../objects'
 
 export class Camera {
-    constructor(id) {
+    constructor(id,remoteIP) {
         this.id = id
+        this.remoteIP = remoteIP
         this.recording = false
-        this.connect()
+        this.connectADB().then(() => {
+            this.connect()
+        })
+    }
+
+    connectADB() {
+        return new Promise((resolve,reject) => {
+            exec('adb connect ' + this.remoteIP, (err,stdout,stdin) => {
+                if(err) {
+                    console.log('ERROR CONNECTING ' + this.id + ' TO WIRELESS ADB.')
+                    console.log(err)
+                    this.adb = this.id
+                }
+                else {
+                    this.adb = this.remoteIP.concat(':5555') // TODO: from original get_adb_device_list()
+                }
+                resolve()
+            })
+        })
     }
 
     connect() {
@@ -24,6 +44,17 @@ export class Camera {
             ]
             global.podware.updateDB(global.podware)
         }
+    }
+
+    disconnect() {
+        const cameras = global.podware.cameras
+        const cameraIndex = cameras.findIndex(x => x.id == this.id)
+        const newCameras = [
+            ...cameras.slice(0,cameraIndex),
+            ...cameras.slice(cameraIndex + 1)
+        ]
+        global.podware.cameras = newCameras
+        global.podware.updateDB(global.podware)
     }
 }
 

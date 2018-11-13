@@ -23,9 +23,14 @@ export const io_camera = require('socket.io').listen(socketPort_cameras)
 export const io_react = require('socket.io').listen(socketPort_react)
 
 io_camera.on('connect', (socket) => {
-    socket.on('cameraConnected', device => new Camera(device))
+    const remoteAddress = socket.handshake.address.split(':')
+    const remoteIP = remoteAddress[remoteAddress.length - 1]
+    var camera
+
+    socket.on('cameraConnected', device => camera = new Camera(device,remoteIP))
     socket.on('videoReadyToPull', data => pullVideoFile(data))
     socket.on('toggleCameraRecording', data => toggleCameraRecording(data))
+    socket.on('disconnect', () => camera.disconnect())
 })
 
 io_react.on('connect', (socket) => {
