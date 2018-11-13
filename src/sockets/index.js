@@ -14,7 +14,6 @@ import {
 import {
     queryAvailableMicrophones,
 } from '../devices/mics/devices'
-import { toggleCameraRecording } from '../devices/cameras'
 import {
     RecordingSession,
 } from '../objects'
@@ -28,15 +27,15 @@ io_camera.on('connect', (socket) => {
     var camera
 
     socket.on('cameraConnected', device => camera = new Camera(device,remoteIP))
-    socket.on('videoReadyToPull', data => pullVideoFile(data))
-    socket.on('toggleCameraRecording', data => toggleCameraRecording(data))
+    socket.on('videoReadyToPull', data => camera.pullVideoFile(data))
+    socket.on('toggleCameraRecording', () => camera.toggleCameraRecording())
     socket.on('disconnect', () => camera.disconnect())
 })
 
 io_react.on('connect', (socket) => {
-    console.log('connected to self')
-    socket.on('startNewRecordingSession', sessionID => new RecordingSession(sessionID))
-    socket.on('stopRecordingSession', () => global.podware.currentRecordingSession.stopRecordingSession())
+    var session
+    socket.on('startNewRecordingSession', sessionID => session = new RecordingSession(sessionID))
+    socket.on('stopRecordingSession', () => session.stopRecordingSession())
     socket.on('queryAllDevices', () => queryAllDevices())
     socket.on('queryAvailableMicrophones', () => queryAvailableMicrophones())
 })

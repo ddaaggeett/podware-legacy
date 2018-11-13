@@ -3,13 +3,7 @@ import { get_adb_device_list, closeAllRunningApps } from './devices'
 import {
     io_react,
 } from '../../sockets'
-import {
-    readyFileSaveDir,
-} from '..'
-import { VideoTrack } from '../../objects'
 var r = require('rethinkdb')
-var path = require('path')
-var fs = require('fs')
 
 get_adb_device_list()
 .then(deviceList => {
@@ -37,29 +31,5 @@ const startCameraApp = (device) => {
             }
             resolve()
         })
-    })
-}
-
-export const pullVideoFile = (data) => {
-    const device = data.device
-    const remoteFileSize = data.fileSize
-    const pullFilePath = data.pullFilePath
-    const timestamp = data.timestamp
-    const endTime = data.endTime
-    const videoFileName = path.basename(pullFilePath)
-    const mediaDir = global.podware.currentRecordingSession.mediaDir
-    const outFile = mediaDir + videoFileName
-    spawn('adb',['-s',device,'pull',pullFilePath,outFile]).stdout.on('data',data => {
-        var flag = true
-        while(flag) {
-            if(fs.existsSync(outFile) && fs.statSync(outFile).size == remoteFileSize) {
-                new VideoTrack(outFile,endTime)
-                console.log(videoFileName + ' exists locally -> now deleting from ' + device)
-                exec('adb -s ' + device + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
-                    if(err) console.log(err)
-                })
-                flag = false
-            }
-        }
     })
 }
