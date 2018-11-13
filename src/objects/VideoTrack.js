@@ -2,18 +2,12 @@ import { exec } from 'child_process'
 
 export class VideoTrack {
 
-    constructor(file,endTime) {
+    constructor(file) {
         this.file = file
-        this.endTime = endTime
-        this.getVideoTrackData()
-        .then(duration => {
-            this.duration = duration
-            this.startTime = this.endTime - (this.duration * 1000)
-            const videoTracks = global.podware.currentRecordingSession.videoTracks
-            videoTracks.push(this)
-            global.podware.currentRecordingSession.videoTracks = videoTracks
-            global.podware.updateDB(global.podware)
-        })
+        const videoTracks = global.podware.currentRecordingSession.videoTracks
+        videoTracks.push(this)
+        global.podware.currentRecordingSession.videoTracks = videoTracks
+        global.podware.updateDB(global.podware)
     }
 
     getVideoTrackData() {
@@ -31,4 +25,21 @@ export class VideoTrack {
         })
     }
 
+    finishRecording(endTime) {
+        this.endTime = endTime
+        this.getVideoTrackData()
+        .then(duration => {
+            this.duration = duration
+            this.startTime = this.endTime - (this.duration * 1000)
+            const videoTracks = global.podware.currentRecordingSession.videoTracks
+            const trackIndex = videoTracks.findIndex(x => x.file === this.file)
+            const newVideoTracks = [
+                ...videoTracks.slice(0,trackIndex),
+                this,
+                ...videoTracks.slice(trackIndex + 1)
+            ]
+            global.podware.currentRecordingSession.videoTracks = newVideoTracks
+            global.podware.updateDB(global.podware)
+        })
+    }
 }

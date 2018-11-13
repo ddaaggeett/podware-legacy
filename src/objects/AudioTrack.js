@@ -1,19 +1,12 @@
 import { exec } from 'child_process'
 
 export class AudioTrack {
-    constructor(file,endTime) {
+    constructor(file) {
         this.file = file
-        this.endTime = endTime
-        this.getAudioTrackData()
-        .then(data => {
-            this.duration = data.duration
-            this.startOffset = data.startOffset
-            this.startTime = this.endTime - (this.duration * 1000)
-            const audioTracks = global.podware.currentRecordingSession.audioTracks
-            audioTracks.push(this)
-            global.podware.currentRecordingSession.audioTracks = audioTracks
-            global.podware.updateDB(global.podware)
-        })
+        const audioTracks = global.podware.currentRecordingSession.audioTracks
+        audioTracks.push(this)
+        global.podware.currentRecordingSession.audioTracks = audioTracks
+        global.podware.updateDB(global.podware)
     }
 
     getAudioTrackData() {
@@ -29,6 +22,25 @@ export class AudioTrack {
                     resolve({duration,startOffset})
                 }
             })
+        })
+    }
+
+    finishRecording(endTime) {
+        this.endTime = endTime
+        this.getAudioTrackData()
+        .then(data => {
+            this.duration = data.duration
+            this.startOffset = data.startOffset
+            this.startTime = this.endTime - (this.duration * 1000)
+            const audioTracks = global.podware.currentRecordingSession.audioTracks
+            const trackIndex = audioTracks.findIndex(x => x.file === this.file)
+            const newAudioTracks = [
+                ...audioTracks.slice(0,trackIndex),
+                this,
+                ...audioTracks.slice(trackIndex + 1)
+            ]
+            global.podware.currentRecordingSession.audioTracks = newAudioTracks
+            global.podware.updateDB(global.podware)
         })
     }
 }

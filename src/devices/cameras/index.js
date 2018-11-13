@@ -79,7 +79,8 @@ export class Camera {
             var flag = true
             while(flag) {
                 if(fs.existsSync(outFile) && fs.statSync(outFile).size == remoteFileSize) {
-                    new VideoTrack(outFile,endTime)
+                    var videoTrack = new VideoTrack(outFile) // TODO: move where camera starts recording
+                    videoTrack.finishRecording(endTime)
                     console.log(videoFileName + ' exists locally -> now deleting from ' + this.id)
                     exec('adb -s ' + this.adb + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
                         if(err) console.log(err)
