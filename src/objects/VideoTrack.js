@@ -1,4 +1,5 @@
 import { exec } from 'child_process'
+import { persistSession } from './RecordingSession'
 
 export class VideoTrack {
 
@@ -39,6 +40,7 @@ export class VideoTrack {
                 ...videoTracks.slice(trackIndex + 1)
             ]
             global.podware.currentRecordingSession.videoTracks = newVideoTracks
+            persistSession(global.podware.currentRecordingSession)
             global.podware.updateDB(global.podware)
         })
     }

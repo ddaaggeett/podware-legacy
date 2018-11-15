@@ -17,6 +17,7 @@ import {
 import {
     RecordingSession,
 } from '../objects'
+import { stopRecordingSession } from '../objects/RecordingSession'
 
 export const io_camera = require('socket.io').listen(socketPort_cameras)
 export const io_react = require('socket.io').listen(socketPort_react)
@@ -33,9 +34,8 @@ io_camera.on('connect', (socket) => {
 })
 
 io_react.on('connect', (socket) => {
-    var session
-    socket.on('startNewRecordingSession', sessionID => session = new RecordingSession(sessionID))
-    socket.on('stopRecordingSession', () => session.stopRecordingSession())
+    socket.on('startNewRecordingSession', sessionID => new RecordingSession(sessionID))
+    socket.on('stopRecordingSession', () => stopRecordingSession())
     socket.on('queryAllDevices', () => queryAllDevices())
     socket.on('queryAvailableMicrophones', () => queryAvailableMicrophones())
 })

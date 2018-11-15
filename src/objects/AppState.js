@@ -23,8 +23,6 @@ export class AppState {
     updateDB(newAppState) {
         r.table(tables.appState).update(newAppState).run(dbConnx)
         .then(data => {
-            console.log('update data')
-            console.log(data)
             if((data.replaced == 0) && (!data.unchanged == 1)) throw 'App State doesn\'t yet exist. inserting instead.'
         })
         .catch(err => {

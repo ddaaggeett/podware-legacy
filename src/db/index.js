@@ -13,6 +13,7 @@ import {
 } from '../sockets'
 import {
     appStateChangefeeds,
+    sessionsChangefeeds,
 } from './changefeeds'
 import { dbSetup } from './dbSetup'
 var r = require('rethinkdb')
@@ -36,6 +37,7 @@ r.connect({
 
         // RethinkDB changefeed
         r.table(tables.appState).changes({ includeInitial: true, squash: true }).run(connection).then(appStateChangefeeds(socket))
+        r.table(tables.recordingSessions).changes().run(connection).then(sessionsChangefeeds(socket))
 	})
 })
 .error(function(error) {

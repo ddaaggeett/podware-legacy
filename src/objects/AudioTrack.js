@@ -1,4 +1,5 @@
 import { exec } from 'child_process'
+import { persistSession } from './RecordingSession'
 
 export class AudioTrack {
     constructor(file) {
@@ -40,6 +41,7 @@ export class AudioTrack {
                 ...audioTracks.slice(trackIndex + 1)
             ]
             global.podware.currentRecordingSession.audioTracks = newAudioTracks
+            persistSession(global.podware.currentRecordingSession)
             global.podware.updateDB(global.podware)
         })
     }
