@@ -27,17 +27,18 @@ const getDestination = (fileName) => {
 const getFileDetails = (device) => {
     return new Promise((resolve,reject) => {
         exec('adb -s ' + device + ' ls /sdcard/podware/', (err,stdout,stdin) => {
-            const filesAll = stdout.split('\n')
+            const outputLines = stdout.split('\n')
             var videos = []
-            filesAll.forEach(line => {
+            const fileCount = outputLines.length - 3 // 1=. | 2=.. | 3=extra line at end
+            outputLines.forEach(line => {
                 if(line.includes('.mp4')) {
                     const lineArray = line.split(' ')
                     const video = {}
                     video.file = lineArray[lineArray.length - 1]
-                    getDestination(video.file).then(desination => {
-                        video.destination = desination
+                    getDestination(video.file).then(destination => {
+                        video.destination = destination
                         videos.push(video)
-                        if(videos.length == devices.length) {
+                        if(videos.length == fileCount) {
                             resolve(videos)
                         }
                     })
@@ -53,7 +54,7 @@ get_adb_device_list()
     adbDevices.forEach(device => {
         getFileDetails(device).then(videos => {
             videos.forEach(video => {
-                spawn('adb',['-s',device,'pull','/sdcard/podware/' + video.file,video.desination]).stdout.on('data', data => {
+                spawn('adb',['-s',device,'pull','/sdcard/podware/' + video.file,video.destination]).stdout.on('data', data => {
                     console.log(data.toString())
                 })
             })
