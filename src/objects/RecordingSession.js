@@ -7,48 +7,58 @@ import {
 } from '../devices/mics'
 import {
     recordingsDir,
+    tables,
 } from '../../config'
+import {
+    dbConnx,
+} from '../db'
+var r = require('rethinkdb')
 var fs = require('fs')
 
 export class RecordingSession {
-    constructor(sessionID) {
+    constructor(session) {
         console.log('recording session init')
-        this.id = sessionID
+        this.session = session
         this.audioTracks = []
         this.videoTracks = []
         this.readyMediaFileDir().then(dir => {
             this.mediaDir = dir
+            global.podware.recording = true
+            global.podware.currentRecordingSession = this
+
             this.recordAudio(dir)
             this.recordVideo()
-            global.podware.updateDB(global.podware)
+            persistSession(this)
         })
-        global.podware.recording = true
-        global.podware.currentRecordingSession = this
-        global.podware.updateDB(global.podware)
     }
 
     recordAudio(toDir) {
-        global.podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.id, toDir))
+        global.podware.selectedMicrophones.forEach(index => recordAudioDevice(index, this.session, toDir))
     }
 
     recordVideo() {
-        io_camera.sockets.emit('startRecording', this.id)
-    }
-
-    stopRecordingSession() {
-        killAllAudioInput()
-        io_camera.sockets.emit('stopRecording')
-        global.podware.recording = false
-        global.podware.updateDB(global.podware)
+        io_camera.sockets.emit('startRecording', this.session)
     }
 
     readyMediaFileDir() {
         return new Promise((resolve,reject) => {
-            const dir = recordingsDir.concat(this.id,'/')
+            const dir = recordingsDir.concat(this.session,'/')
             if(!fs.existsSync(dir)) {
                 fs.mkdir(dir, () => resolve(dir))
             }
             else resolve(dir)
         })
     }
+}
+
+export const stopRecordingSession = () => {
+    killAllAudioInput()
+    io_camera.sockets.emit('stopRecording')
+    global.podware.recording = false
+    global.podware.updateDB(global.podware)
+}
+
+export const persistSession = (newObject) => {
+    if(newObject.id == undefined) r.table(tables.recordingSessions).insert(newObject).run(dbConnx)
+    else r.table(tables.recordingSessions).update(newObject).run(dbConnx)
 }
