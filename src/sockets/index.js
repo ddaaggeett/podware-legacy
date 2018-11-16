@@ -3,9 +3,6 @@ import {
     socketPort_react,
 } from '../../config'
 import {
-    pullVideoFile,
-} from '../devices/adb'
-import {
     queryAllDevices,
 } from '../devices'
 import {
@@ -18,6 +15,7 @@ import {
     RecordingSession,
 } from '../objects'
 import { stopRecordingSession } from '../objects/RecordingSession'
+import { pullVideoFile } from '../objects/VideoTrack'
 
 export const io_camera = require('socket.io').listen(socketPort_cameras)
 export const io_react = require('socket.io').listen(socketPort_react)
@@ -28,7 +26,7 @@ io_camera.on('connect', (socket) => {
     var camera
 
     socket.on('cameraConnected', device => camera = new Camera(device,remoteIP))
-    socket.on('videoReadyToPull', data => camera.pullVideoFile(data))
+    socket.on('videoReadyToPull', data => pullVideoFile(data,camera))
     socket.on('toggleCameraRecording', () => camera.toggleCameraRecording())
     socket.on('disconnect', () => camera.disconnect())
 })

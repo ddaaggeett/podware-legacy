@@ -1,8 +1,6 @@
 import { exec, spawn } from 'child_process'
 import { io_camera } from '../../sockets'
 import { VideoTrack } from '../../objects'
-var path = require('path')
-var fs = require('fs')
 
 export class Camera {
     constructor(id,remoteIP) {
@@ -65,30 +63,6 @@ export class Camera {
         const currentStatus = cameras[cameraIndex].recording
         global.podware.cameras[cameraIndex].recording = !currentStatus
         global.podware.updateDB(global.podware)
-    }
-
-    pullVideoFile(data) {
-        const remoteFileSize = data.fileSize
-        const pullFilePath = data.pullFilePath
-        const timestamp = data.timestamp
-        const endTime = data.endTime
-        const videoFileName = path.basename(pullFilePath)
-        const mediaDir = global.podware.currentRecordingSession.mediaDir
-        const outFile = mediaDir + videoFileName
-        spawn('adb',['-s',this.adb,'pull',pullFilePath,outFile]).stdout.on('data',data => {
-            var flag = true
-            while(flag) {
-                if(fs.existsSync(outFile) && fs.statSync(outFile).size == remoteFileSize) {
-                    var videoTrack = new VideoTrack(outFile) // TODO: move where camera starts recording
-                    videoTrack.finishRecording(endTime)
-                    console.log(videoFileName + ' exists locally -> now deleting from ' + this.id)
-                    exec('adb -s ' + this.adb + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
-                        if(err) console.log(err)
-                    })
-                    flag = false
-                }
-            }
-        })
     }
 }
 

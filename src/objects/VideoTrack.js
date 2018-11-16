@@ -1,5 +1,6 @@
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import { persistSession } from './RecordingSession'
+var path = require('path')
 
 export class VideoTrack {
 
@@ -44,4 +45,27 @@ export class VideoTrack {
             global.podware.updateDB(global.podware)
         })
     }
+}
+
+export const pullVideoFile = (data,camera) => {
+    const pullFilePath = data.pullFilePath
+    const timestamp = data.timestamp
+    const endTime = data.endTime
+    const videoFileName = path.basename(pullFilePath)
+    const mediaDir = global.podware.currentRecordingSession.mediaDir
+    const outFile = mediaDir + videoFileName
+    const pullCommand = spawn('adb',['-s',camera.adb,'pull',pullFilePath,outFile])
+    pullCommand.stdout.on('data',data => {
+        console.log(data.toString())
+    })
+    pullCommand.on('close', exitCode => {
+        if(exitCode == 0) {
+            var videoTrack = new VideoTrack(outFile) // TODO: move where camera starts recording
+            videoTrack.finishRecording(endTime)
+            console.log(videoFileName + ' exists locally -> now deleting from ' + camera.id)
+            exec('adb -s ' + camera.adb + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
+                if(err) console.log(err)
+            })
+        }
+    })
 }

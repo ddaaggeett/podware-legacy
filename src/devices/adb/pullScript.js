@@ -54,8 +54,16 @@ get_adb_device_list()
     adbDevices.forEach(device => {
         getFileDetails(device).then(videos => {
             videos.forEach(video => {
-                spawn('adb',['-s',device,'pull','/sdcard/podware/' + video.file,video.destination]).stdout.on('data', data => {
+                const command = spawn('adb',['-s',device,'pull','/sdcard/podware/' + video.file,video.destination])
+                command.stdout.on('data', data => {
                     console.log(data.toString())
+                })
+                command.on('close', exitCode => {
+                    if(exitCode == 0) {
+                        exec('adb -s ' + device + ' shell rm -rf ' + '/sdcard/podware/' + video.file, (err,stdout,stdin) => {
+                            if(err) console.log(err)
+                        })
+                    }
                 })
             })
         })
