@@ -51,7 +51,9 @@ export class RecordingSession {
     }
 }
 
-export const stopRecordingSession = () => {
+export const stopRecordingSession = (name) => {
+    global.podware.currentRecordingSession.name = name
+    global.podware.currentRecordingSession.lastEditTime = Date.now()
     killAllAudioInput()
     io_camera.sockets.emit('stopRecording')
     global.podware.recording = false
@@ -61,4 +63,17 @@ export const stopRecordingSession = () => {
 export const persistSession = (newObject) => {
     if(newObject.id == undefined) r.table(tables.recordingSessions).insert(newObject).run(dbConnx)
     else r.table(tables.recordingSessions).update(newObject).run(dbConnx)
+}
+
+export const setCurrentRecordingSession = (session) => {
+    global.podware.currentRecordingSession = session
+    global.podware.updateDB(global.podware)
+}
+
+export const setNewSessionsList = () => {
+    r.table(tables.recordingSessions).orderBy(r.desc('lastEditTime')).pluck('name').run(dbConnx)
+    .then(data => {
+        global.podware.availableSessions = data
+        global.podware.updateDB(global.podware)
+    })
 }

@@ -32,8 +32,8 @@ io_camera.on('connect', (socket) => {
 })
 
 io_react.on('connect', (socket) => {
-    socket.on('startNewRecordingSession', sessionID => new RecordingSession(sessionID))
-    socket.on('stopRecordingSession', () => stopRecordingSession())
+    socket.on('startNewRecordingSession', data => new RecordingSession(data.session))
+    socket.on('stopRecordingSession', data => stopRecordingSession(data.name))
     socket.on('queryAllDevices', () => queryAllDevices())
     socket.on('queryAvailableMicrophones', () => queryAvailableMicrophones())
 })

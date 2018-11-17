@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Screenshots from './Screenshots'
 import Microphones from './Microphones'
 import Cameras from './Cameras'
+import Sessions from './Sessions'
 import classNames from 'classnames'
 import {
     handleScreenshots,
@@ -42,12 +43,14 @@ export default class RecordingControl extends Component {
 
     handleFullRecordStart() {
         console.log('start recording all devices')
-        socket.emit('startNewRecordingSession', Date.now())
+        const session = Date.now()
+        socket.emit('startNewRecordingSession', {session})
     }
 
     handleFullRecordStop() {
         console.log('stop recording all devices')
-        socket.emit('stopRecordingSession')
+        const name = document.getElementById("sessionName").value
+        socket.emit('stopRecordingSession', {name})
     }
 
     render() {
@@ -62,8 +65,10 @@ export default class RecordingControl extends Component {
                     {/*<div className={styles.recordingControlButton} onClick={() => handleScreenshots(this.props.devices)}>screenshots</div>*/}
                     <div className={styles.recordingControlButton} onClick={() => adbSnapAndDisplay()}>snap+display</div>
                 </div>
+                <input className={styles.sessionName} id="sessionName" placeholder="name recording before STOP" />
                 <Microphones {...this.props} />
                 <Cameras {...this.props} />
+                <Sessions {...this.props} />
                 <div className={styles.controllerRow}>
                     {/*<Screenshots {...this.props} />*/}
                 </div>
