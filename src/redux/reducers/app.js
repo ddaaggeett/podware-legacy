@@ -2,6 +2,7 @@ const initialState = {
     recording: false,
     selectedMicrophones: [],
     cameras: [],
+    isPostProduction: false,
 }
 
 const app = (state = initialState, action) => {

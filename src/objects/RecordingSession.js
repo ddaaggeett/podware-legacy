@@ -71,7 +71,7 @@ export const setCurrentRecordingSession = (session) => {
 }
 
 export const setNewSessionsList = () => {
-    r.table(tables.recordingSessions).orderBy(r.desc('lastEditTime')).pluck('name').run(dbConnx)
+    r.table(tables.recordingSessions).orderBy(r.desc('lastEditTime')).pluck('name','id').run(dbConnx)
     .then(data => {
         global.podware.availableSessions = data
         global.podware.updateDB(global.podware)

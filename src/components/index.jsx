@@ -1,20 +1,14 @@
 import React, { Component } from 'react'
 import RecordingControl from './RecordingControl'
+import PostProduction from './PostProduction'
 
 export default class App extends Component {
     constructor(props) {
         super(props)
-        this.state = {}
     }
-    componentWillReceiveProps(newProps) {
-        console.log('newProps')
-        console.log(newProps)
-    }
+
     render() {
-        return (
-            <div>
-                <RecordingControl {...this.props} />
-            </div>
-        )
+        if(this.props.app.isPostProduction) return <PostProduction {...this.props} />
+        else return <RecordingControl {...this.props} />
     }
 }

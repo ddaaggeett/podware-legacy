@@ -13,12 +13,22 @@ class Session extends Component {
         super(props)
     }
 
+    enterPostProduction(id) {
+        const currentAppState = this.props.app
+        const newAppState = {
+            ...currentAppState,
+            postProductionSessionID: id,
+            isPostProduction: true,
+        }
+        socket.emit('updateAppState', newAppState)
+    }
+
     render() {
         const sessionStyle = classNames(
             styles.micItem,
         )
         return (
-            <li className={sessionStyle} onClick={() => this.enterPostProduction(this.props.index)}>{this.props.session}</li>
+            <li className={sessionStyle} onClick={() => this.enterPostProduction(this.props.id)}>{this.props.name}</li>
         )
     }
 }
@@ -30,7 +40,7 @@ class SessionList extends Component {
 
     render() {
         var sessionList = []
-        this.props.list.forEach((session, index) => sessionList.push(<Session session={session.name} key={index} index={index} {...this.props} />))
+        this.props.list.forEach((session, index) => sessionList.push(<Session name={session.name} id={session.id} key={index} index={index} {...this.props} />))
         return (
             <ul className={styles.micList}>{sessionList}</ul>
         )
