@@ -28,7 +28,7 @@ class CameraList extends Component {
     render() {
         var cameraList = []
         this.props.list.forEach((device, index) => {
-            cameraList.push(<Cam device={device.id} key={index} index={index} {...this.props} />)
+            cameraList.push(<Cam device={device.serial} key={index} index={index} {...this.props} />)
         })
         return (
             <ul className={styles.micList}>{cameraList}</ul>

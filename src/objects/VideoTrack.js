@@ -62,7 +62,7 @@ export const pullVideoFile = (data,camera) => {
         if(exitCode == 0) {
             var videoTrack = new VideoTrack(outFile) // TODO: move where camera starts recording
             videoTrack.finishRecording(endTime)
-            console.log(videoFileName + ' exists locally -> now deleting from ' + camera.id)
+            console.log(videoFileName + ' exists locally -> now deleting from ' + camera.serial)
             exec('adb -s ' + camera.adb + ' shell rm -rf ' + pullFilePath, (err,stdout,stdin) => {
                 if(err) console.log(err)
             })

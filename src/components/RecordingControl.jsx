@@ -22,15 +22,6 @@ export default class RecordingControl extends Component {
 
         socket.emit('queryAllDevices')
 
-        socket.on('logADBDevices', adbDevices => {
-            const currentAppState = this.props.app
-            const newAppState = {
-                ...currentAppState,
-                adbDevices
-            }
-            socket.emit('updateAppState', newAppState)
-        })
-
         socket.on('logAvailableMicrophones', audioDeviceList => {
             const currentAppState = this.props.app
             const newAppState = {

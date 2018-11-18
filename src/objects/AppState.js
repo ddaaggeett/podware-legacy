@@ -11,7 +11,6 @@ export class AppState {
 
     constructor(newAppState) {
         this.id = newAppState.id
-        this.adbDevices = newAppState.adbDevices
         this.mics = newAppState.mics
         this.selectedMicrophones = newAppState.selectedMicrophones
         this.cameras = newAppState.cameras
