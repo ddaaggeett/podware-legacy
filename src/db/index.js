@@ -6,9 +6,6 @@ import {
     tables,
 } from '../../config'
 import {
-    AppState,
-} from '../objects'
-import {
     io_react,
 } from '../sockets'
 import {
@@ -32,7 +29,7 @@ r.connect({
 	io_react.on('connect', socket => {
 
         socket.on('updateAppState', newAppState => {
-            global.podware = new AppState(newAppState)
+            global.podware.updateDB(newAppState)
         })
 
         // RethinkDB changefeed

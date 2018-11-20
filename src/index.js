@@ -1,9 +1,20 @@
+import { AppState } from './objects'
 import {
     bundleFile,
 } from '../config'
 import { app, BrowserWindow } from 'electron'
 import './devices'
 import './sockets'
+
+try {
+    global.podware = new AppState()
+}
+catch(e) {
+    if(e instanceof TypeError) console.log(e, true)
+    else console.log(e, false)
+}
+
+
 import './db'
 var fs = require('fs')
 
