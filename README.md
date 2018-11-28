@@ -1,3 +1,5 @@
+all forward development here -> [podware](https://github.com/ddaaggeett/podware)
+
 ## podware - podcast software
 
 this software package is used directly with its [camera module](https://github.com/ddaaggeett/podware-camera)
